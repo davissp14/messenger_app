@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Hello SecureMessenger!</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <div class="container">
+      <main role="main">
+        <div class="left-column">
+          <h2>Rooms</h2>
+          <div class="room">
+            <%= for room <- @rooms do %>
+              <div class="room-name <%= if (@room.id == room.id), do: 'active', else: '' %>" data-id=<%= room.id %>>
+                <%= link "# #{room.name}", to: room_path(@conn, :show, room) %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="right-column">
+          <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+          <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+          <%= render @view_module, @view_template, assigns %>
+        </div>
+      </main>
+
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

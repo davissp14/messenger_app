@@ -1,0 +1,40 @@
+.left-column {
+  position:fixed; /* <-- fixes the left panel to prevent from scrolling */
+  top:0;
+  left:0;
+  width:235px;
+  height:100%;
+  background: #262b30;
+  right-border: solid 4px black;
+}
+
+.left-column h2 {
+  font-size: 18px;
+  padding-left: 10px;
+  font-weight: bold;
+  color: white;
+}
+
+.left-column .room {}
+
+.left-column .room-name {
+  padding: 5px 0px 5px 20px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+}
+
+.left-column .room-name a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+}
+
+.left-column .room-name.active {
+  background: green;
+  color: white;
+}
+
+.left-column .room-name:hover {
+  background: #3d454c;
+}
