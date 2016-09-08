@@ -16,10 +16,14 @@
       <main role="main">
         <div class="left-column">
           <h2>Rooms</h2>
-          <div class="room">
+            <div class="rooms">
             <%= for room <- @rooms do %>
-              <div class="room-name <%= if (@room.id == room.id), do: 'active', else: '' %>" data-id=<%= room.id %>>
-                <%= link "# #{room.name}", to: room_path(@conn, :show, room) %>
+              <div class="room">
+                <%= link to: room_path(@conn, :show, room) do %>
+                  <div class="room-name <%= if (@room.id == room.id), do: 'active', else: '' %>" data-id=<%= room.id %>>
+                    # <%= room.name %>
+                  </div>
+                <% end %>
               </div>
             <% end %>
           </div>
