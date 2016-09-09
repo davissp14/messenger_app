@@ -10,7 +10,7 @@ defmodule SecureMessenger.Channel do
   end
 
   def handle_in("new_msg", %{"body" => body}, socket) do
-    broadcast! socket, "new_msg", %{body: body}
+    broadcast! socket, "new_msg", %{body: body, time: Timex.format!(Timex.now, "%l:%M%P", :strftime)}
     {:noreply, socket}
   end
 

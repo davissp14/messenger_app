@@ -1,42 +1,54 @@
-.right-column {
-  height: 100vh;
-  margin-left: 235px;
+div.col-lg-12 {
+
 }
 
-.chat-room-name {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0 10px;
-  padding: 0 0 10px 10px;
-  border-bottom: solid 1px black;
-}
-.chat-room {
-  width: 100%;
-  padding: 10px;
-}
-
-#messages {
+.chat
+{
   position: fixed;
-  bottom: 100px;
-  left: 235px;
+  bottom: 75px;
+  left: 250px;
   right: 0;
-  padding: 10px;
-  height: 70%;
-  width: inherit;
-  overflow-y: scroll;
+  max-height: 100%;
+  overflow-y: auto;
+  list-style: none;
+  padding: 20px;
 }
 
-#messages .message {
-  padding:5px;
+.chat li
+{
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #B3A9A9;
+}
+
+.chat li.left .chat-body
+{
+    margin-left: 60px;
+}
+
+.chat li.right .chat-body
+{
+    margin-right: 60px;
+}
+
+
+.chat li .chat-body p
+{
+    margin: 0;
+    color: #777777;
+}
+
+.panel .slidedown .glyphicon, .chat .glyphicon
+{
+    margin-right: 5px;
 }
 
 .chat-panel  {
   position: fixed;
   bottom: 0;
   right: 0;
-  left: 235px;
-  width: inherit;
-  padding: 10px;
+  left: 250px;
+  padding: 20px 30px;
 }
 
 .chat-panel .chat-input {
@@ -55,4 +67,11 @@
    padding: 15px;
    background: rgba(255,255,255,0.5);
    width: 100%;
+}
+
+@media(max-width:768px) {
+  .chat-panel {
+    left: 0;
+    margin-left: 5px;
+  }
 }

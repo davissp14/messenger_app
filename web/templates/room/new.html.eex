@@ -4,3 +4,25 @@
                         action: room_path(@conn, :create) %>
 
 <%= link "Back", to: room_path(@conn, :index) %>
+
+
+<div class="left-column">
+  <h2>Rooms</h2>
+    <div class="rooms">
+    <%= for room <- @rooms do %>
+      <div class="room">
+        <%= link to: room_path(@conn, :show, room) do %>
+          <div class="room-name <%= if (@room.id == room.id), do: 'active', else: '' %>" data-id=<%= room.id %>>
+            # <%= room.name %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="right-column">
+  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+  <%= render @view_module, @view_template, assigns %>
+</div>

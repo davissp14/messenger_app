@@ -1,6 +1,7 @@
 
-<div class="chat-room">
+hi
+<!-- <div class="chat-room">
   <h2>Welcome to privacy!</h2>
 
   <%= link "New room", to: room_path(@conn, :new) %>
-</div>
+</div> -->

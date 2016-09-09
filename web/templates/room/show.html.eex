@@ -1,10 +1,11 @@
-<div class="chat-room-name">
-  <%= @room.name %>
-</div>
+<div class="col-lg-12 panel">
+    <div class="panel-body">
+      <ul class="chat">
 
-<div class='chat-room'>
-  <div id="messages" data-id=<%= @room.id %>></div>
-</div>
-<div class="chat-panel">
-  <input class="chat-input" type="text" placeholder="Enter your message"></input>
+      </ul>
+    </div>
+
+    <div class="chat-panel">
+      <input class="chat-input" type="text" placeholder="Enter your message"></input>
+    </div>
 </div>

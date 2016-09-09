@@ -55,7 +55,7 @@ socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
 let chatInput = $(".chat-input")
-let messagesContainer = $("#messages")
+let messagesContainer = $("ul.chat")
 let room = "channels:" + messagesContainer.data("id")
 let channel = socket.channel(room, {})
 
@@ -67,7 +67,26 @@ chatInput.on("keypress", event => {
 })
 
 channel.on("new_msg", payload => {
-  messagesContainer.append(`<div class="message">Anonymous: ${payload.body}</div>`)
+  messagesContainer.append(`
+    <li class="left clearfix">
+      <span class="chat-img pull-left">
+        <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+      </span>
+      <div class="chat-body clearfix">
+        <div class="header">
+          <strong class="primary-font">Anonymous</strong>
+          <small class="pull-right text-muted">
+            <span class="glyphicon glyphicon-time"></span>
+            ${payload.time}
+          </small>
+        </div>
+        <p>
+          ${payload.body}
+        </p>
+     </div>
+  </li>
+`)
+messagesContainer.animate({ scrollTop: messagesContainer[0].scrollHeight}, "fast");
 })
 
 channel.join()
