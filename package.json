@@ -5,7 +5,8 @@
   "repository": {},
   "license": "MIT",
   "engines": {
-    "node": "6.5.0"
+    "node": "6.5.0",
+    "npm": "3.10.3"
   },
   "scripts": {
     "deploy": "brunch build --production",
