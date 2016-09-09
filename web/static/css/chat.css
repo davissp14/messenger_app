@@ -70,6 +70,9 @@ div.col-lg-12 {
 }
 
 @media(max-width:768px) {
+  .chat {
+    left: 0px;
+  }
   .chat-panel {
     left: 0;
     margin-left: 5px;
