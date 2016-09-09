@@ -19,9 +19,7 @@ config :secure_messenger, SecureMessenger.Endpoint,
 
 config :secure_messenger, SecureMessenger.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "secure_messenger_prod",
+  url: System.get_env("DATABASE_URL"),
   pool_size: 20
 
 # Do not print debug messages in production

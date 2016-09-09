@@ -16,7 +16,7 @@ config :secure_messenger, SecureMessenger.Endpoint,
   render_errors: [view: SecureMessenger.ErrorView, accepts: ~w(html json)],
   pubsub: [name: SecureMessenger.PubSub,
            adapter: Phoenix.PubSub.Redis,
-           url: "redis://x:PBJSVFCGCEORLAAA@aws-us-east-1-portal.15.dblayer.com:15156"]
+           url: System.get_env("REDIS_DATABASE_URL")]
 
 # Configures Elixir's Logger
 config :logger, :console,
