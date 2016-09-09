@@ -52,6 +52,7 @@ defmodule SecureMessenger.Web do
       import SecureMessenger.Router.Helpers
       import SecureMessenger.ErrorHelpers
       import SecureMessenger.Gettext
+      import SecureMessenger.ViewHelper
     end
   end
 

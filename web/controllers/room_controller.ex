@@ -1,16 +1,17 @@
 defmodule SecureMessenger.RoomController do
   use SecureMessenger.Web, :controller
-
   alias SecureMessenger.Room
 
   def index(conn, _params) do
+    room = Repo.get(Room, 1)
     rooms = Repo.all(Room)
-    render(conn, "index.html", rooms: rooms)
+    render(conn, "index.html", rooms: rooms, room: room)
   end
 
   def new(conn, _params) do
     changeset = Room.changeset(%Room{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset,
+    layout: {SecureMessenger.LayoutView, "main.html"})
   end
 
   def create(conn, %{"room" => room_params}) do

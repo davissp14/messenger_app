@@ -1,5 +1,6 @@
 defmodule SecureMessenger.Channel do
   use Phoenix.Channel
+  import Guardian.Phoenix.Socket
 
   def join("channels:" <> _private_room_id, _message, socket) do
     {:ok, socket}
@@ -10,7 +11,9 @@ defmodule SecureMessenger.Channel do
   end
 
   def handle_in("new_msg", %{"body" => body}, socket) do
-    broadcast! socket, "new_msg", %{body: body, time: Timex.format!(Timex.now, "%l:%M%P", :strftime)}
+    current_time = Timex.format!(Timex.now, "%l:%M%P", :strftime)
+    # username = current_resource(socket).username
+    broadcast! socket, "new_msg", %{username: "anonymous", body: body, time: current_time}
     {:noreply, socket}
   end
 

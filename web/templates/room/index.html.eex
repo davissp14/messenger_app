@@ -1,5 +1,5 @@
 
-hi
+hi <%= current_user(@conn).username %>
 <!-- <div class="chat-room">
   <h2>Welcome to privacy!</h2>
 

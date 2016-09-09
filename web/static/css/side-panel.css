@@ -26,7 +26,7 @@
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
-    background: #000;
+    background: linear-gradient(to bottom, #008BC3, #0051a5);
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -67,7 +67,8 @@
 .sidebar-nav li a {
     display: block;
     text-decoration: none;
-    color: #999999;
+    text-decoration: none;
+    color: white;
 }
 
 .sidebar-nav li a:hover {
@@ -81,6 +82,25 @@
     text-decoration: none;
 }
 
+.sidebar-nav li.room span{
+  padding-left: 10px;
+  text-decoration: none;
+}
+
+.sidebar-nav li.sidebar-header {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.sidebar-nav li.active {
+  background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav li.sidebar-header a {
+  display: inline;
+}
+
 .sidebar-nav > .sidebar-brand {
     height: 65px;
     font-size: 18px;
@@ -88,7 +108,7 @@
 }
 
 .sidebar-nav > .sidebar-brand a {
-    color: #999999;
+    color: white;
 }
 
 .sidebar-nav > .sidebar-brand a:hover {

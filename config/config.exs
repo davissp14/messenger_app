@@ -18,6 +18,16 @@ config :secure_messenger, SecureMessenger.Endpoint,
            adapter: Phoenix.PubSub.Redis,
            url: System.get_env("REDIS_DATABASE_URL")]
 
+
+ config :guardian, Guardian,
+   allowed_algos: ["HS512"],
+   verify_module: Guardian.JWT,
+   issuer: "SecureMessenger",
+   ttl: { 30, :days},
+   verify_issuer: true,
+   secret_key: "<your secret guardian key>",
+   serializer: SecureMessenger.GuardianSerializer
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

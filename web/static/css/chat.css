@@ -1,5 +1,27 @@
-div.col-lg-12 {
 
+#chatroom-header {
+  border-bottom: solid 1px #e4e4e4;
+  background: white;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 250px;
+  height: 70px;
+}
+
+#chatroom-header .room-information {
+  padding: 10px 0 0 25px;
+}
+
+#chatroom-header .name {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#chatroom-header .number {
+  font-size: 14px;
+  color: gray;
 }
 
 .chat
@@ -8,7 +30,7 @@ div.col-lg-12 {
   bottom: 75px;
   left: 250px;
   right: 0;
-  max-height: 100%;
+  max-height: 79%;
   overflow-y: auto;
   list-style: none;
   padding: 20px;
@@ -70,7 +92,7 @@ div.col-lg-12 {
 }
 
 @media(max-width:768px) {
-  .chat {
+  #chatroom-header, .chat {
     left: 0px;
   }
   .chat-panel {
