@@ -1,8 +1,11 @@
 {
+  "name": "messengerr",
+  "description": "Somethin",
+  "version": "0.0.1",
   "repository": {},
   "license": "MIT",
   "engines": {
-    "version": "6.5.0"
+    "node": "6.5.0"
   },
   "scripts": {
     "deploy": "brunch build --production",
