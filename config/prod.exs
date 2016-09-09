@@ -17,6 +17,13 @@ config :secure_messenger, SecureMessenger.Endpoint,
   cache_static_manifest: "priv/static/manifest.json",
   secret_key_base: System.get_env("SECRET_KEY_BASE")
 
+config :secure_messenger, SecureMessenger.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
+  database: "secure_messenger_prod",
+  pool_size: 20
+
 # Do not print debug messages in production
 config :logger, level: :info
 
