@@ -57,7 +57,8 @@ socket.connect()
 let chatInput = $(".chat-input")
 let messagesContainer = $("ul.chat")
 let room = "channels:" + messagesContainer.data("id")
-let channel = socket.channel(room, {})
+let guardianToken = $('meta[name="guardian_token"]').attr('content')
+let channel = socket.channel(room, {guardian_token: guardianToken})
 
 chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
@@ -70,13 +71,12 @@ channel.on("new_msg", payload => {
   messagesContainer.append(`
     <li class="left clearfix">
       <span class="chat-img pull-left">
-        <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+        <img src=${payload.image} alt="User Avatar" />
       </span>
       <div class="chat-body clearfix">
         <div class="header">
           <strong class="primary-font">${payload.username}</strong>
-          <small class="pull-right text-muted">
-            <span class="glyphicon glyphicon-time"></span>
+          <small class="chat-time text-muted">
             ${payload.time}
           </small>
         </div>

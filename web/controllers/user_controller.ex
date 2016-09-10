@@ -48,26 +48,26 @@ defmodule SecureMessenger.UserController do
     render(conn, "edit.html", user: user, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "user" => user_params}) do
-    user = Repo.get(User, id)
-    changeset = User.registration_changeset(user, user_params)
-    cond do
-      user == Guardian.Plug.current_resource(conn) ->
-        case Repo.update(changeset) do
-          {:ok, user} ->
-            conn
-            |> put_flash(:info, "User updated")
-            |> redirect(to: session_path(conn, :new))
-          {:error, changeset} ->
-            conn
-            |> render("show.html", user: user, changeset: changeset)
-        end
-      :error ->
-        conn
-        |> put_flash(:info, "No access")
-        |> redirect(to: session_path(conn, :new))
-    end
-  end
+  # def update(conn, %{"id" => id, "user" => user_params}) do
+  #   user = Repo.get(User, id)
+  #   changeset = User.registration_changeset(user, user_params)
+  #   cond do
+  #     user == Guardian.Plug.current_resource(conn) ->
+  #       case Repo.update(changeset) do
+  #         {:ok, user} ->
+  #           conn
+  #           |> put_flash(:info, "User updated")
+  #           |> redirect(to: session_path(conn, :new))
+  #         {:error, changeset} ->
+  #           conn
+  #           |> render("show.html", user: user, changeset: changeset)
+  #       end
+  #     :error ->
+  #       conn
+  #       |> put_flash(:info, "No access")
+  #       |> redirect(to: session_path(conn, :new))
+  #   end
+  # end
 
   def delete(conn, %{"id" => id}) do
     user = Repo.get!(User, id)

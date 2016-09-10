@@ -1,8 +1,8 @@
 defmodule SecureMessenger.Channel do
   use Phoenix.Channel
-  import Guardian.Phoenix.Socket
+  use Guardian.Channel
 
-  def join("channels:" <> _private_room_id, _message, socket) do
+  def join("channels:" <> _private_room_id, %{ claims: claims, resource: resource }, socket) do
     {:ok, socket}
   end
   #
@@ -12,10 +12,13 @@ defmodule SecureMessenger.Channel do
 
   def handle_in("new_msg", %{"body" => body}, socket) do
     current_time = Timex.format!(Timex.now, "%l:%M%P", :strftime)
-    # username = current_resource(socket).username
-    broadcast! socket, "new_msg", %{username: "anonymous", body: body, time: current_time}
+    user = current_resource(socket)
+    image = Gravatar.gravatar_url(user.email, secure: false, s: 40)
+    broadcast! socket, "new_msg", %{image: image, username: user.username, body: body, time: current_time}
     {:noreply, socket}
   end
+
+  def handle_guardian_auth_failure(reason), do: { :error, %{ error: reason } }
 
   # def handle_out("new_msg", payload, socket) do
   #   push socket, "new_msg", payload

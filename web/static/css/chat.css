@@ -1,4 +1,19 @@
 
+.chat-time.text-muted {
+  padding-left: 5px;
+  color: #bdbdbd;
+
+}
+
+.chat-img img{
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+ul.chat li.left .chat-body {
+  margin-left: 50px;
+}
+
 #chatroom-header {
   border-bottom: solid 1px #e4e4e4;
   background: white;
@@ -11,7 +26,7 @@
 }
 
 #chatroom-header .room-information {
-  padding: 10px 0 0 25px;
+  padding: 15px 0 0 20px;
 }
 
 #chatroom-header .name {
@@ -27,20 +42,21 @@
 .chat
 {
   position: fixed;
-  bottom: 75px;
+  top: 70px;
+  bottom: 65px;
   left: 250px;
   right: 0;
-  max-height: 79%;
+  max-height: 80%;
   overflow-y: auto;
   list-style: none;
-  padding: 20px;
+  padding: 20px 20px 0px 20px;
 }
 
 .chat li
 {
     margin-bottom: 10px;
     padding-bottom: 5px;
-    border-bottom: 1px dotted #B3A9A9;
+    /*border-bottom: 1px dotted #B3A9A9;*/
 }
 
 .chat li.left .chat-body
@@ -70,7 +86,7 @@
   bottom: 0;
   right: 0;
   left: 250px;
-  padding: 20px 30px;
+  padding: 20px 20px;
 }
 
 .chat-panel .chat-input {
