@@ -14,10 +14,14 @@
   </head>
 
   <body>
-    <div class="row">
-        <div class="col-lg-4 col- col-lg-offset-4">
-          <%= render @view_module, @view_template, assigns %>
-        </div>
+    <div class="container container-fluid centered-column">
+      <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+            <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+            <%= render @view_module, @view_template, assigns %>
+          </div>
+      </div>
     </div>
 
     <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>

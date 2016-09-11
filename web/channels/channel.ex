@@ -15,7 +15,7 @@ defmodule SecureMessenger.Channel do
   def handle_in("new_msg", %{"body" => body, "room_id" => room_id}, socket) do
     user = current_resource(socket)
     current_time = Timex.format!(Timex.now, "%l:%M%P", :strftime)
-    broadcast! socket, "new_msg", %{image: user.gravatar_url, username: user.username, body: body, time: current_time}
+    broadcast! socket, "new_msg", %{image: user.gravatar_url, name: user.name, body: body, time: current_time}
     {:noreply, socket}
   end
 

@@ -78,7 +78,7 @@ channel.on("new_msg", payload => {
       </span>
       <div class="chat-body clearfix">
         <div class="header">
-          <strong class="primary-font">${payload.username}</strong>
+          <strong class="primary-font">${payload.name}</strong>
           <small class="chat-time text-muted">
             ${payload.time}
           </small>
