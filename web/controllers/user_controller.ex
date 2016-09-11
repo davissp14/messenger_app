@@ -1,5 +1,8 @@
 defmodule SecureMessenger.UserController do
   use SecureMessenger.Web, :controller
+  import Ecto.Changeset, only: [put_change: 3]
+  import Logger
+
   alias SecureMessenger.User
   alias SecureMessenger.Room
 
@@ -18,6 +21,9 @@ defmodule SecureMessenger.UserController do
   def create(conn, %{"user" => user_params}) do
     gravatar_url = Gravatar.gravatar_url(user_params["email"], secure: true)
     changeset = User.changeset(%User{gravatar_url: gravatar_url}, user_params)
+    changeset = changeset
+    |> put_change(:crypted_password, Comeonin.Bcrypt.hashpwsalt(changeset.params["password"]))
+
     case Repo.insert(changeset) do
       {:ok, user} ->
         conn

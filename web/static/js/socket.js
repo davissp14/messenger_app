@@ -57,13 +57,14 @@ socket.connect()
 let chatInput = $(".chat-input")
 let messagesContainer = $("ul.chat")
 let room_id = messagesContainer.data("id")
-let room = "channels:" + room_id
+
+let room_topic = "channels:" + room_id
 let guardianToken = $('meta[name="guardian_token"]').attr('content')
-let channel = socket.channel(room, {guardian_token: guardianToken})
+
+let channel = socket.channel(room_topic, {guardian_token: guardianToken})
 
 chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
-    console.log(room)
     channel.push("new_msg", {body: chatInput.val(), room_id: room_id})
     chatInput.val("")
   }
@@ -88,11 +89,11 @@ channel.on("new_msg", payload => {
      </div>
   </li>
 `)
-messagesContainer.animate({ scrollTop: messagesContainer[0].scrollHeight}, "fast");
-})
+
+messagesContainer.animate({ scrollTop: messagesContainer[0].scrollHeight}, "fast");})
 
 channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("ok", resp => {})
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 export default socket

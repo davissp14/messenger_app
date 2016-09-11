@@ -4,7 +4,6 @@ defmodule SecureMessenger.UserSocket do
   ## Channels
   channel "channels:*", SecureMessenger.Channel
   # channel "room:*", SecureMessenger.RoomChannel
-
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
   # transport :longpoll, Phoenix.Transports.LongPoll

@@ -2,7 +2,6 @@ defmodule SecureMessenger.Channel do
   use Phoenix.Channel
   use Guardian.Channel
   alias SecureMessenger.Repo
-  alias SecureMessenger.Message
   import Logger
 
   def join("channels:" <> _private_room_id, %{ claims: claims, resource: resource }, socket) do
@@ -21,10 +20,5 @@ defmodule SecureMessenger.Channel do
   end
 
   def handle_guardian_auth_failure(reason), do: { :error, %{ error: reason } }
-
-  # def handle_out("new_msg", payload, socket) do
-  #   push socket, "new_msg", payload
-  #   {:noreply, socket}
-  # end
 
 end

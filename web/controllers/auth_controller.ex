@@ -1,5 +1,5 @@
 defmodule SecureMessenger.Auth do
-  #import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
+  import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
   import Plug.Conn
   import Logger
 
@@ -13,7 +13,7 @@ defmodule SecureMessenger.Auth do
     user = repo.get_by(SecureMessenger.User, email: email)
 
     cond do
-      user && given_pass == user.password ->
+      user && checkpw(given_pass, user.crypted_password) ->
         {:ok, login(conn, user)}
       user ->
         {:error, :unauthorized, conn}
