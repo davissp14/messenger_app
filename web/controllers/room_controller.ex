@@ -8,9 +8,9 @@ defmodule SecureMessenger.RoomController do
   end
 
   def new(conn, _params) do
+    rooms = Repo.all(Room)
     changeset = Room.changeset(%Room{})
-    render(conn, "new.html", changeset: changeset,
-    layout: {SecureMessenger.LayoutView, "main.html"})
+    render(conn, "new.html", changeset: changeset, rooms: rooms)
   end
 
   def create(conn, %{"room" => room_params}) do
