@@ -31,13 +31,15 @@
                     <span class='glyphicon glyphicon-plus pull-right' style="padding: 10px 20px 10px 10px; "></span>
                   <% end %>
                 </li>
+
                 <%= for room <- @rooms do %>
-                <li class="room <%= if @room && room.id == @room.id, do: 'active', else: ''%>" data-id=<%= room.id %>>
+                <li class="room <%= if assigns[:room] && room.id == @room.id, do: 'active', else: ''%>" data-id=<%= room.id %>>
                   <%= link to: room_path(@conn, :show, room) do %>
                       <span># <%= room.name %></span>
                   <% end %>
                 </li>
                 <% end %>
+
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -45,7 +47,7 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div id="chatroom-header">
-              <%= if @room do %>
+              <%= if assigns[:room] do %>
                 <div class="room-information">
                   <div class='name'>#<%= @room.name %></div>
                   <div class='number'>29 members</div>

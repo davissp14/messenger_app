@@ -3,9 +3,8 @@ defmodule SecureMessenger.RoomController do
   alias SecureMessenger.Room
 
   def index(conn, _params) do
-    room = Repo.get(Room, 1)
     rooms = Repo.all(Room)
-    render(conn, "index.html", rooms: rooms, room: room)
+    render(conn, "index.html", rooms: rooms)
   end
 
   def new(conn, _params) do
