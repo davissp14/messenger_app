@@ -20,7 +20,7 @@ defmodule SecureMessenger.Message do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :user_id, :room_id])
-    |> validate_required([:name, :user_id, :room_id])
+    |> cast(params, [:body, :user_id, :room_id])
+    |> validate_required([:body, :user_id, :room_id])
   end
 end

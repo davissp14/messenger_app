@@ -56,13 +56,15 @@ socket.connect()
 // Now that you are connected, you can join channels with a topic:
 let chatInput = $(".chat-input")
 let messagesContainer = $("ul.chat")
-let room = "channels:" + messagesContainer.data("id")
+let room_id = messagesContainer.data("id")
+let room = "channels:" + room_id
 let guardianToken = $('meta[name="guardian_token"]').attr('content')
 let channel = socket.channel(room, {guardian_token: guardianToken})
 
 chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
-    channel.push("new_msg", {body: chatInput.val()})
+    console.log(room)
+    channel.push("new_msg", {body: chatInput.val(), room_id: room_id})
     chatInput.val("")
   }
 })
@@ -71,7 +73,7 @@ channel.on("new_msg", payload => {
   messagesContainer.append(`
     <li class="left clearfix">
       <span class="chat-img pull-left">
-        <img src=${payload.image} alt="User Avatar" />
+        <img src=${payload.image + '?s=40'} alt="User Avatar" />
       </span>
       <div class="chat-body clearfix">
         <div class="header">

@@ -1,3 +1,9 @@
+#chatroom-header .user-info {
+  position: fixed;
+  right: 50px;
+  top: 25px;
+}
+
 #chatroom-header {
   border-bottom: solid 1px #e4e4e4;
   background: white;

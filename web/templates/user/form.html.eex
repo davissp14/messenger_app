@@ -25,5 +25,10 @@
 
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
+
+    <%= link "Already have an account?", to: session_path(@conn, :new),
+        class: "btn btn" %>
   </div>
+
+
 <% end %>

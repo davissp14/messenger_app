@@ -116,6 +116,11 @@
     background: none;
 }
 
+.sidebar-nav > .sidebar-brand img {
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
 @media(min-width:768px) {
     #wrapper {
         padding-left: 250px;

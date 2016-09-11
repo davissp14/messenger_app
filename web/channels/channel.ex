@@ -1,6 +1,9 @@
 defmodule SecureMessenger.Channel do
   use Phoenix.Channel
   use Guardian.Channel
+  alias SecureMessenger.Repo
+  alias SecureMessenger.Message
+  import Logger
 
   def join("channels:" <> _private_room_id, %{ claims: claims, resource: resource }, socket) do
     {:ok, socket}
@@ -10,11 +13,10 @@ defmodule SecureMessenger.Channel do
     {:error, %{reason: "unauthorized"}}
   end
 
-  def handle_in("new_msg", %{"body" => body}, socket) do
-    current_time = Timex.format!(Timex.now, "%l:%M%P", :strftime)
+  def handle_in("new_msg", %{"body" => body, "room_id" => room_id}, socket) do
     user = current_resource(socket)
-    image = Gravatar.gravatar_url(user.email, secure: false, s: 40)
-    broadcast! socket, "new_msg", %{image: image, username: user.username, body: body, time: current_time}
+    current_time = Timex.format!(Timex.now, "%l:%M%P", :strftime)
+    broadcast! socket, "new_msg", %{image: user.gravatar_url, username: user.username, body: body, time: current_time}
     {:noreply, socket}
   end
 

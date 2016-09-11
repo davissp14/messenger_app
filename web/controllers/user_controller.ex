@@ -1,8 +1,9 @@
 defmodule SecureMessenger.UserController do
   use SecureMessenger.Web, :controller
   alias SecureMessenger.User
+  alias SecureMessenger.Room
 
-  plug :put_layout, "main.html"
+  plug :put_layout, "login.html"
 
   def index(conn, _params) do
     users = Repo.all(User)
@@ -15,8 +16,8 @@ defmodule SecureMessenger.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, user_params)
-
+    gravatar_url = Gravatar.gravatar_url(user_params["email"], secure: true)
+    changeset = User.changeset(%User{gravatar_url: gravatar_url}, user_params)
     case Repo.insert(changeset) do
       {:ok, user} ->
         conn
@@ -80,4 +81,5 @@ defmodule SecureMessenger.UserController do
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: user_path(conn, :index))
   end
+
 end
