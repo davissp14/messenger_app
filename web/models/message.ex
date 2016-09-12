@@ -3,8 +3,8 @@ defmodule SecureMessenger.Message do
 
   schema "messages" do
     field :body, :string
-    field :user_id, :string
-    field :room_id, :string
+    belongs_to :room, SecureMessenger.Room
+    belongs_to :user, SecureMessenger.User
 
     timestamps()
   end

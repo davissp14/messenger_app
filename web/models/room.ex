@@ -4,6 +4,7 @@ defmodule SecureMessenger.Room do
   schema "rooms" do
     field :name, :string
 
+    has_many :messages, SecureMessenger.Message
     timestamps()
   end
 

@@ -1,7 +1,24 @@
 <div class="col-lg-12 panel">
     <div class="panel-body">
       <ul class="chat" data-id=<%= @room.id %>>
-
+        <%= for message <- @room.messages do %>
+          <li class="left clearfix">
+            <span class="chat-img pull-left">
+              <img src=<%= message.user.gravatar_url <> "?s=40" %> alt="User Avatar" />
+            </span>
+            <div class="chat-body clearfix">
+              <div class="header">
+                <strong class="primary-font"><%= message.user.name %></strong>
+                <small class="chat-time text-muted">
+                  <%= Timex.format!(message.inserted_at, "%l:%M%P", :strftime) %>
+                </small>
+              </div>
+              <p>
+                <%= message.body %>
+              </p>
+           </div>
+         </li>
+       <% end %>
       </ul>
     </div>
 

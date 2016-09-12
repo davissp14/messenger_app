@@ -1,6 +1,8 @@
 defmodule SecureMessenger.RoomController do
   use SecureMessenger.Web, :controller
   alias SecureMessenger.Room
+  alias SecureMessenger.Message
+  alias SecureMessenger.Repo
 
   def index(conn, _params) do
     rooms = Repo.all(Room)
@@ -28,7 +30,7 @@ defmodule SecureMessenger.RoomController do
 
   def show(conn, %{"id" => id}) do
     rooms = Repo.all(Room)
-    room = Repo.get!(Room, id)
+    room = Repo.get!(Room, id) |> Repo.preload([:messages, messages: [:user]])
     render(conn, "show.html", room: room, rooms: rooms)
   end
 

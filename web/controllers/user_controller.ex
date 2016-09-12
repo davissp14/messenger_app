@@ -1,8 +1,6 @@
 defmodule SecureMessenger.UserController do
   use SecureMessenger.Web, :controller
   import Ecto.Changeset, only: [put_change: 3]
-  import Logger
-
   alias SecureMessenger.User
   alias SecureMessenger.Room
 
