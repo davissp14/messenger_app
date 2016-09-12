@@ -1,6 +1,5 @@
 defmodule SecureMessenger.SessionController do
   use SecureMessenger.Web, :controller
-  alias SecureMessenger.Room
   plug :put_layout, "login.html"
 
   def new(conn, _) do

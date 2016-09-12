@@ -1,7 +1,6 @@
 defmodule SecureMessenger.RoomController do
   use SecureMessenger.Web, :controller
   alias SecureMessenger.Room
-  alias SecureMessenger.Message
   alias SecureMessenger.Repo
 
   def index(conn, _params) do

@@ -19,7 +19,7 @@ defmodule SecureMessenger.Mixfile do
   def application do
     [mod: {SecureMessenger, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_pubsub_redis, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :timex]]
+                    :phoenix_ecto, :postgrex, :timex, :timex_ecto]]
   end
 
   # Specifies which paths to compile per environment.
@@ -41,7 +41,9 @@ defmodule SecureMessenger.Mixfile do
      {:cowboy, "~> 1.0"},
      {:timex, "~> 3.0"},
      {:comeonin, "~> 2.4"},
-     {:guardian, "~> 0.12.0"}]
+     {:guardian, "~> 0.12.0"},
+     {:timex_ecto, "~> 3.0"}
+   ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
