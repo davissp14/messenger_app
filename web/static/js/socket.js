@@ -93,7 +93,9 @@ channel.on("new_msg", payload => {
 messagesContainer.animate({ scrollTop: messagesContainer[0].scrollHeight}, "slow");})
 
 channel.join()
-  .receive("ok", resp => {})
+  .receive("ok", resp => {
+    $("ul.chat").scrollTop($("ul.chat")[0].scrollHeight);
+  })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 export default socket
