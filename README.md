@@ -1,5 +1,16 @@
 # SecureMessenger
 
+
+## Getting Setup
+
+* Install Brew: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+* Install Npm: `brew install npm`
+* Install Node: `brea install node`
+* Install Elixir: ` brew update && brew install elixir`
+* Install Hex:  `mix local.hex`
+* Install Phoenix: `$ mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez`
+
+
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
