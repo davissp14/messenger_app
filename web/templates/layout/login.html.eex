@@ -17,8 +17,12 @@
     <div class="container container-fluid centered-column">
       <div class="row">
           <div class="col-md-6 col-md-offset-3">
-            <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-            <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+            <% if get_flash(@conn, :info) do %>
+              <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+            <% end %>
+            <%= if get_flash(@conn, :error) do %>
+              <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+            <% end %>
             <%= render @view_module, @view_template, assigns %>
           </div>
       </div>

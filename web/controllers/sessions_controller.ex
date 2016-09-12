@@ -12,8 +12,6 @@ defmodule SecureMessenger.SessionController do
     case SecureMessenger.Auth.login_by_email_and_pass(conn, user, pass,
                                            repo: Repo) do
       {:ok, conn} ->
-        # Route to general channel by default.
-        general_channel = Repo.get_by!(Room, name: "general")
         logged_in_user = Guardian.Plug.current_resource(conn)
         conn
         |> put_flash(:info, "Welcome!")
@@ -28,6 +26,7 @@ defmodule SecureMessenger.SessionController do
   def delete(conn, _) do
     conn
     |> Guardian.Plug.sign_out
+    |> put_flash(:info, "Hope to see you back soon!")
     |> redirect(to: "/")
   end
 
