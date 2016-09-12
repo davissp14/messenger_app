@@ -90,7 +90,7 @@ channel.on("new_msg", payload => {
   </li>
 `)
 
-messagesContainer.animate({ scrollTop: messagesContainer[0].scrollHeight}, "fast");})
+messagesContainer.animate({ scrollTop: messagesContainer[0].scrollHeight}, "slow");})
 
 channel.join()
   .receive("ok", resp => {})
