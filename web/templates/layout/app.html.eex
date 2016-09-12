@@ -33,8 +33,8 @@
                 </li>
 
                 <%= for room <- @rooms do %>
-                <li class="room <%= if assigns[:room] && room.id == @room.id, do: 'active', else: ''%>" data-id=<%= room.id %>>
-                  <%= link to: room_path(@conn, :show, room) do %>
+                <li class="room" data-id=<%= room.id %>>
+                  <%= link to: room_path(@conn, :show, room), class: "#{if assigns[:room] && room.id == @room.id, do: "active", else: ""}" do %>
                       <span># <%= room.name %></span>
                   <% end %>
                 </li>

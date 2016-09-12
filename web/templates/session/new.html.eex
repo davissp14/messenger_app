@@ -10,7 +10,5 @@
     <%= password_input f, :password, placeholder: "Password", class: "form-control" %>
   </div>
   <%= submit "Sign in", class: "btn btn-primary" %>
-
-  <%= link "Create new account", to: user_path(@conn, :new),
-      class: "btn btn" %>
+  <%= link "Create new account", to: user_path(@conn, :new), class: "btn" %>
 <% end %>

@@ -13,5 +13,6 @@
 
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
+    <%= link "Back", to: room_path(@conn, :index), class: "btn" %>
   </div>
 <% end %>
