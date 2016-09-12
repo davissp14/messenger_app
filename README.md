@@ -1,7 +1,7 @@
 # SecureMessenger
 
 
-## Getting Setup
+## Installing Dependencies
 
 * Install Brew: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 * Install Npm: `brew install npm`
@@ -9,6 +9,12 @@
 * Install Elixir: ` brew update && brew install elixir`
 * Install Hex:  `mix local.hex`
 * Install Phoenix: `$ mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez`
+* Install Redis: `brew install redis`
+* Install Postgresql: `brew install postgresql`
+
+
+## Pull Down Repository
+ `git clone https://github.com/davissp14/messenger_app.git`
 
 
 To start your Phoenix app:
