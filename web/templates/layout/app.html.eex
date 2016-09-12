@@ -33,7 +33,7 @@
               <li class="sidebar-header">
                 Channels
                 <%= link to: room_path(@conn, :new) do %>
-                  <span class='glyphicon glyphicon-plus pull-right' style="padding: 10px 20px 10px 10px; "></span>
+                  <span class='glyphicon glyphicon-plus pull-right'></span>
                 <% end %>
               </li>
 

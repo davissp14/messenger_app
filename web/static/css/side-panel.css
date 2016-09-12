@@ -62,7 +62,7 @@
 
 .sidebar-nav li {
     text-indent: 20px;
-    line-height: 40px;
+    line-height: 30px;
 }
 
 .sidebar-nav li a {
@@ -80,6 +80,7 @@
 .sidebar-nav li.room span { padding-left: 10px; }
 
 .sidebar-nav li.sidebar-header {
+  margin-top: 10px;
   color: white;
   font-weight: bold;
   font-size: 18px;
@@ -87,6 +88,10 @@
 
 .sidebar-nav li.sidebar-header a {
   display: inline;
+}
+
+.sidebar-nav > .sidebar-header span {
+  padding: 5px 15px 10px 10px;
 }
 
 .sidebar-nav > .sidebar-brand {
@@ -106,7 +111,7 @@
 
 .sidebar-nav > .sidebar-brand img {
     border-radius: 50px;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .sidebar-nav > .sidebar-brand .sidebar-user-profile {
@@ -115,14 +120,14 @@
   left: 60px;
   top: 20px;
   width: 100%;
-  line-height: 20px;
+  line-height: 23px;
 }
 
-.sidebar-nav .sidebar-brand .sidebar-user-profile span {
+.sidebar-nav > .sidebar-brand .sidebar-user-profile span {
   font-size: 18px;
   font-weight: bold;
 }
-.sidebar-nav .sidebar-brand .sidebar-user-profile div {
+.sidebar-nav > .sidebar-brand .sidebar-user-profile div {
   font-size: 12px;
 }
 
