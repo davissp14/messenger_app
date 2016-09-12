@@ -105,8 +105,25 @@
 }
 
 .sidebar-nav > .sidebar-brand img {
-    border-radius: 5px;
-    margin-top: 15px;
+    border-radius: 50px;
+    margin-top: 10px;
+}
+
+.sidebar-nav > .sidebar-brand .sidebar-user-profile {
+  color: white;
+  position: absolute;
+  left: 60px;
+  top: 20px;
+  width: 100%;
+  line-height: 20px;
+}
+
+.sidebar-nav .sidebar-brand .sidebar-user-profile span {
+  font-size: 18px;
+  font-weight: bold;
+}
+.sidebar-nav .sidebar-brand .sidebar-user-profile div {
+  font-size: 12px;
 }
 
 @media(min-width:768px) {

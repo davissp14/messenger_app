@@ -22,24 +22,28 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                  <img src=<%= gravatar_img(@conn, 50) %> />
-                </li>
-                <li class="sidebar-header">
-                  Channels
-                  <%= link to: room_path(@conn, :new) do %>
-                    <span class='glyphicon glyphicon-plus pull-right' style="padding: 10px 20px 10px 10px; "></span>
-                  <% end %>
-                </li>
+              <li class="sidebar-brand">
+                <img src=<%= gravatar_img(@conn, 50) %> />
+                <div class="sidebar-user-profile">
+                  <span><%= current_user(@conn).name %></span>
+                  <div> Edit / Sign Out </div>
+                </div>
 
-                <%= for room <- @rooms do %>
+              </li>
+              <li class="sidebar-header">
+                Channels
+                <%= link to: room_path(@conn, :new) do %>
+                  <span class='glyphicon glyphicon-plus pull-right' style="padding: 10px 20px 10px 10px; "></span>
+                <% end %>
+              </li>
+
+              <%= for room <- @rooms do %>
                 <li class="room" data-id=<%= room.id %>>
                   <%= link to: room_path(@conn, :show, room), class: "#{if assigns[:room] && room.id == @room.id, do: "active", else: ""}" do %>
                       <span># <%= room.name %></span>
                   <% end %>
                 </li>
-                <% end %>
-
+              <% end %>
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
