@@ -16,6 +16,16 @@
 ## Pull Down Repository
  `git clone https://github.com/davissp14/messenger_app.git`
 
+## Starting Redis / Postgresql
+Open up two new tabs
+In one run:  `redis-server` 
+In the other run: `initdb /usr/local/var/postgres/`  # You only need to run this the first time you set this up.
+Then run `posgres -D /usr/local/var/postgres/`
+Connect to postgres and create the secure_messenger_dev database.
+`psql postgres`
+`create database secure_messenger_dev;` then push ctrl-d to exit. 
+
+## Starting the App
 
 To start your Phoenix app:
 
