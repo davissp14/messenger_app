@@ -1,21 +1,24 @@
 defmodule SecureMessenger.RoomController do
   use SecureMessenger.Web, :controller
   alias SecureMessenger.Room
+  alias SecureMessenger.User
   alias SecureMessenger.Repo
+  alias SecureMessenger.UsersRooms
 
   def index(conn, _params) do
-    rooms = Repo.all(Room)
-    render(conn, "index.html", rooms: rooms)
+    rooms_to_join = Repo.all(Room) |> Repo.preload([:owner, :users])
+    user = Guardian.Plug.current_resource(conn) |> Repo.preload([:rooms, rooms: [:owner, :users]])
+    render(conn, "index.html", rooms: user.rooms, rooms_to_join: rooms_to_join)
   end
 
   def new(conn, _params) do
-    rooms = Repo.all(Room)
+    user = Guardian.Plug.current_resource(conn) |> Repo.preload([:rooms])
     changeset = Room.changeset(%Room{})
-    render(conn, "new.html", changeset: changeset, rooms: rooms)
+    render(conn, "new.html", changeset: changeset, rooms: user.rooms)
   end
 
   def create(conn, %{"room" => room_params}) do
-    changeset = Room.changeset(%Room{}, room_params)
+    changeset = Room.changeset(%Room{owner_id: Guardian.Plug.current_resource(conn).id}, room_params)
 
     case Repo.insert(changeset) do
       {:ok, _room} ->
@@ -28,9 +31,9 @@ defmodule SecureMessenger.RoomController do
   end
 
   def show(conn, %{"id" => id}) do
-    rooms = Repo.all(Room)
-    room = Repo.get!(Room, id) |> Repo.preload([:messages, messages: [:user]])
-    render(conn, "show.html", room: room, rooms: rooms)
+    user = Guardian.Plug.current_resource(conn) |> Repo.preload([:rooms])
+    room = Repo.get!(Room, id) |> Repo.preload([:users, :messages, messages: [:user]])
+    render(conn, "show.html", room: room, rooms: user.rooms)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -63,5 +66,19 @@ defmodule SecureMessenger.RoomController do
     conn
     |> put_flash(:info, "Room deleted successfully.")
     |> redirect(to: room_path(conn, :index))
+  end
+
+  def join(conn, %{"id" => id}) do
+    user = Guardian.Plug.current_resource(conn)
+    user_room = UsersRooms.changeset(%UsersRooms{user_id: user.id, room_id: String.to_integer(id)}, %{})
+    case  SecureMessenger.Repo.insert(user_room) do
+        {:ok, user_room} ->
+          conn
+          |> put_flash(:info, "Joined Room!")
+          |> redirect(to: room_path(conn, :show, id))
+        {:error, user_room} ->
+          conn
+          |> redirect(to: room_path(conn, :show, id))
+    end
   end
 end

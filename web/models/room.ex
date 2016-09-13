@@ -3,8 +3,12 @@ defmodule SecureMessenger.Room do
 
   schema "rooms" do
     field :name, :string
+    field :description, :string
 
+    belongs_to :owner, SecureMessenger.User
     has_many :messages, SecureMessenger.Message
+    many_to_many :users, SecureMessenger.User, join_through: "users_rooms"
+
     timestamps()
   end
 

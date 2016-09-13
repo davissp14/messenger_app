@@ -23,13 +23,14 @@ defmodule SecureMessenger.Router do
 
   scope "/", SecureMessenger do
     pipe_through :browser
-    resources "/users", UserController, only: [:new, :create]
+    resources "/users", UserController, only: [:new, :create, :edit]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
   scope "/", SecureMessenger do
     pipe_through [:browser, :browser_auth] # Use the default browser stack
     resources "/", RoomController
+    get "/:id/join", RoomController, :join
   end
 
   # Other scopes may use custom stacks.

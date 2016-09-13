@@ -26,7 +26,8 @@
                 <img src=<%= gravatar_img(@conn, 50) %> />
                 <div class="sidebar-user-profile">
                   <span><%= current_user(@conn).name %></span>
-                  <div> Edit / Sign Out </div>
+                  <div>
+                    Edit - Sign Out </div>
                 </div>
 
               </li>
@@ -54,7 +55,7 @@
               <%= if assigns[:room] do %>
                 <div class="room-information">
                   <div class='name'>#<%= @room.name %></div>
-                  <div class='number'>29 members</div>
+                  <div class='number'><%= length(@room.users) %> members</div>
                 </div>
               <% end %>
               <div class="user-info">

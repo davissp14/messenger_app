@@ -1,5 +1,50 @@
+<div class="col-lg-12 search">
+  <div class="search-container">
+    <div class="search-header">
+      Browse all <%= length(@rooms_to_join) %> Channels
+    </div>
+    <div class="search-input">
 
-hi <%= current_user(@conn).name %>
+        <form class="navbar-form" role="search">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit">
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
+            </div>
+            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+          </div>
+        </form>
+    </div>
+    <div class="search-results">
+      <ul>
+        <%= for room <- @rooms_to_join do %>
+          <li>
+            <%= link to: room_path(@conn, :join, room.id) do %>
+            <div class='room-overview'>
+               <div class='room-name'>
+                 #<strong> <%= room.name %></strong>
+                 <span class='membership-status'>
+                   <%= for user <- room.users do %>
+                      <%= if user == current_user(@conn) do %>
+                        (Already Joined)
+                      <% end %>
+                    <% end %>
+                 </span>
+                <span class="pull-right"><span class="glyphicon glyphicon-user"></span> <%= length(room.users) %> </span>
+               </div>
+               <div class='room-owner'>
+                 <i>Created by</i> <%= room.owner.name %> <i>on </i> <%= Timex.format!(room.inserted_at, "%B %d, %Y", :strftime) %></div>
+               <div class='room-desc'><%= room.description %></div>
+               <%#= link "Join", to: room_path(@conn, :join, room.id), class: "btn btn-primary btn-sm" %>
+            </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
 <!-- <div class="chat-room">
   <h2>Welcome to privacy!</h2>
 

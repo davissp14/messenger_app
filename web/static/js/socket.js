@@ -65,8 +65,10 @@ let channel = socket.channel(room_topic, {guardian_token: guardianToken})
 
 chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
-    channel.push("new_msg", {body: chatInput.val(), room_id: room_id})
-    chatInput.val("")
+    if (!chatInput.val().replace(/\s/g, '').length == 0) {
+      channel.push("new_msg", {body: chatInput.val(), room_id: room_id})
+      chatInput.val("")
+    }
   }
 })
 

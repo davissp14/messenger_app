@@ -8,6 +8,7 @@ defmodule SecureMessenger.User do
     field :crypted_password, :string
     field :gravatar_url, :string
 
+    many_to_many :rooms, SecureMessenger.Room, join_through: "users_rooms"
     timestamps()
   end
 
