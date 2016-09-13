@@ -1,10 +1,12 @@
 <div class="col-lg-12 search">
   <div class="search-container">
+
     <div class="search-header">
       Browse all <%= length(@rooms_to_join) %> Channels
+      <%= link "Create Room", to: room_path(@conn, :new), class: "btn-primary btn pull-right" %>
     </div>
+<!-- 
     <div class="search-input">
-
         <form class="navbar-form" role="search">
           <div class="input-group">
             <div class="input-group-btn">
@@ -12,10 +14,10 @@
                 <i class="glyphicon glyphicon-search"></i>
               </button>
             </div>
-            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+            <input type="text" class="form-control" placeholder="Not functional yet" name="srch-term" id="srch-term">
           </div>
         </form>
-    </div>
+    </div> -->
     <div class="search-results">
       <ul>
         <%= for room <- @rooms_to_join do %>

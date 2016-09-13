@@ -1,7 +1,7 @@
 
 div.search {
-  margin-top: 70px;
-  padding: 25px;
+  margin-top: 60px;
+  /*padding: 25px;*/
 }
 
 div.search .search-container {
@@ -11,6 +11,7 @@ div.search .search-container {
 div.search .search-container .search-header {
   font-size: 26px;
   font-weight: bold;
+  padding: 15px 0 20px 0;
 }
 
 div.search .search-container .search-input {
@@ -23,6 +24,8 @@ div.search .search-container .search-input form.navbar-form {
 
 div.search .search-container .search-results {
   line-height: 22px;
+  height: 70vh;
+  overflow-y: scroll;
 }
 
 div.search .search-container .search-results ul {

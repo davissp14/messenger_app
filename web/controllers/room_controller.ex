@@ -26,7 +26,9 @@ defmodule SecureMessenger.RoomController do
         |> put_flash(:info, "Room created successfully.")
         |> redirect(to: room_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        conn
+        |> put_flash(:error, "Problem creating a new room.")
+        |> redirect(to: room_path(conn, :new), changeset: changeset)
     end
   end
 
