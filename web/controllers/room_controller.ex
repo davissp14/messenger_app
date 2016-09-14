@@ -1,24 +1,26 @@
 defmodule SecureMessenger.RoomController do
   use SecureMessenger.Web, :controller
+  import Ecto.Query
   alias SecureMessenger.Room
-  alias SecureMessenger.User
   alias SecureMessenger.Repo
   alias SecureMessenger.UsersRooms
 
   def index(conn, _params) do
+    rooms = Repo.all(user_rooms(current_user(conn)))
     rooms_to_join = Repo.all(Room) |> Repo.preload([:owner, :users])
-    user = Guardian.Plug.current_resource(conn) |> Repo.preload([:rooms, rooms: [:owner, :users]])
-    render(conn, "index.html", rooms: user.rooms, rooms_to_join: rooms_to_join)
+    render(conn, "index.html", rooms: rooms, rooms_to_join: rooms_to_join,
+      layout: {SecureMessenger.LayoutView, "app.html"})
   end
 
   def new(conn, _params) do
-    user = Guardian.Plug.current_resource(conn) |> Repo.preload([:rooms])
+    rooms = Repo.all(user_rooms(current_user(conn)))
     changeset = Room.changeset(%Room{})
-    render(conn, "new.html", changeset: changeset, rooms: user.rooms)
+    render(conn, "new.html", changeset: changeset, rooms: rooms,
+    layout: {SecureMessenger.LayoutView, "app.html"})
   end
 
   def create(conn, %{"room" => room_params}) do
-    changeset = Room.changeset(%Room{owner_id: Guardian.Plug.current_resource(conn).id}, room_params)
+    changeset = Room.changeset(%Room{owner_id: current_user(conn).id}, room_params)
 
     case Repo.insert(changeset) do
       {:ok, _room} ->
@@ -33,9 +35,10 @@ defmodule SecureMessenger.RoomController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Guardian.Plug.current_resource(conn) |> Repo.preload([:rooms])
-    room = Repo.get!(Room, id) |> Repo.preload([:users, :messages, messages: [:user]])
-    render(conn, "show.html", room: room, rooms: user.rooms)
+    rooms = Repo.all(user_rooms(current_user(conn)))
+    room = Repo.get!(user_rooms(current_user(conn)), id)
+    |> Repo.preload([:users, :messages, messages: [:user]])
+    render(conn, "show.html", room: room, rooms: rooms)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -71,8 +74,10 @@ defmodule SecureMessenger.RoomController do
   end
 
   def join(conn, %{"id" => id}) do
-    user = Guardian.Plug.current_resource(conn)
-    user_room = UsersRooms.changeset(%UsersRooms{user_id: user.id, room_id: String.to_integer(id)}, %{})
+    user_room = UsersRooms.changeset(%UsersRooms{user_id: current_user(conn).id, room_id: String.to_integer(id)}, %{})
+
+    # SecureMessenger.Endpoint.broadcast!("users:join:" <> String.to_integer(id), "new_member", %{})
+
     case  SecureMessenger.Repo.insert(user_room) do
         {:ok, user_room} ->
           conn
@@ -82,5 +87,13 @@ defmodule SecureMessenger.RoomController do
           conn
           |> redirect(to: room_path(conn, :show, id))
     end
+  end
+
+  def user_rooms(user) do
+    assoc(user, :rooms)
+  end
+
+  def current_user(conn) do
+    Guardian.Plug.current_resource(conn)
   end
 end

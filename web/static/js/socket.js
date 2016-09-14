@@ -62,6 +62,7 @@ let room_topic = "channels:" + room_id
 let guardianToken = $('meta[name="guardian_token"]').attr('content')
 
 let channel = socket.channel(room_topic, {guardian_token: guardianToken})
+let member_join = socket.channel("users:join:"+room_id, {guardian_token: guardianToken})
 
 chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
@@ -92,12 +93,20 @@ channel.on("new_msg", payload => {
   </li>
 `)
 
+member_join.on("new_member", payload => {
+  alert('HERE')
+});
+
 messagesContainer.animate({ scrollTop: messagesContainer[0].scrollHeight}, "slow");})
 
 channel.join()
   .receive("ok", resp => {
     $("ul.chat").scrollTop($("ul.chat")[0].scrollHeight);
   })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
+member_join.join()
+  .receive("ok", resp => {})
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 export default socket

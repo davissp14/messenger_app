@@ -3,6 +3,7 @@ defmodule SecureMessenger.UserSocket do
 
   ## Channels
   channel "channels:*", SecureMessenger.Channel
+  channel "users:join:*", SecureMessenger.Channel
   # channel "room:*", SecureMessenger.RoomChannel
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

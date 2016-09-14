@@ -13,7 +13,7 @@ defmodule SecureMessenger.SessionController do
       {:ok, conn} ->
         logged_in_user = Guardian.Plug.current_resource(conn)
         conn
-        |> put_flash(:info, "Welcome!")
+        |> put_flash(:info, "Welcome back!")
         |> redirect(to: room_path(conn, :index))
       {:error, _reason, conn} ->
         conn

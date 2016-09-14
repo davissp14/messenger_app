@@ -51,6 +51,18 @@
 
         <!-- Page Content -->
         <div id="page-content-wrapper">
+            <div id="chatroom-header">
+              <%= if assigns[:room] do %>
+                <div class="room-information">
+                  <div class='name'>#<%= @room.name %></div>
+                  <div class='number'><%= length(@room.users) %> members</div>
+                </div>
+              <% end %>
+              <div class="user-info">
+                <%= link "Sign out", to: session_path(@conn, :delete, current_user(@conn)), method: :delete, data: [confirm: "Are you sure?"] %>
+              </div>
+            </div>
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
