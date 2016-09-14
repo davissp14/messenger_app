@@ -19,7 +19,7 @@
   <body>
     <div id="wrapper">
 
-      <%= render SecureMessenger.LayoutView, "side-bar.html", conn: @conn, rooms: @rooms %>
+      <%= render SecureMessenger.LayoutView, "side-bar.html", conn: @conn, rooms: @rooms, room: @room %>
 
       <!-- Page Content -->
       <div id="page-content-wrapper">
