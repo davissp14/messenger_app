@@ -23,7 +23,7 @@ defmodule SecureMessenger.Router do
 
   scope "/", SecureMessenger do
     pipe_through :browser
-    resources "/users", UserController, only: [:new, :create, :edit]
+    resources "/users", UserController, only: [:new, :create, :edit, :update]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 

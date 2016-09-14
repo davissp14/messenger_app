@@ -15,3 +15,9 @@ html, body {
   height: 100%;
   position: relative;
 }
+
+.alerts_container {
+  border: solid;
+  width: 100px;
+  height: 100px;
+}

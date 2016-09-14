@@ -19,7 +19,17 @@ defmodule SecureMessenger.User do
     struct
     |> cast(params, [:name, :email, :password], [:crypted_password])
     |> unique_constraint(:email)
-    |> validate_required([:email, :password, :name])
+    |> validate_required([:email, :name, :crypted_password])
     |> validate_length(:password, min: 5)
   end
+
+  def update_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:name, :email])
+    |> unique_constraint(:email)
+    |> validate_required([:email, :name])
+    |> validate_length(:email, min: 5)
+    |> validate_length(:name, min: 2)
+  end
+
 end

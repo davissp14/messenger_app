@@ -49,30 +49,36 @@ defmodule SecureMessenger.UserController do
 
   def edit(conn, %{"id" => id}) do
     user = Repo.get!(User, id)
-    changeset = User.changeset(user)
-    render(conn, "edit.html", user: user, changeset: changeset)
+    rooms = Repo.all(assoc(user, :rooms))
+    changeset = User.update_changeset(user)
+    render(conn, "edit.html", user: user, rooms: rooms, changeset: changeset, layout: {SecureMessenger.LayoutView, "app.html"})
   end
 
-  # def update(conn, %{"id" => id, "user" => user_params}) do
-  #   user = Repo.get(User, id)
-  #   changeset = User.registration_changeset(user, user_params)
-  #   cond do
-  #     user == Guardian.Plug.current_resource(conn) ->
-  #       case Repo.update(changeset) do
-  #         {:ok, user} ->
-  #           conn
-  #           |> put_flash(:info, "User updated")
-  #           |> redirect(to: session_path(conn, :new))
-  #         {:error, changeset} ->
-  #           conn
-  #           |> render("show.html", user: user, changeset: changeset)
-  #       end
-  #     :error ->
-  #       conn
-  #       |> put_flash(:info, "No access")
-  #       |> redirect(to: session_path(conn, :new))
-  #   end
-  # end
+  def update(conn, %{"id" => id, "user" => user_params}) do
+    user = Repo.get(User, id)
+    rooms = Repo.all(assoc(user, :rooms))
+    changeset = User.update_changeset(user, user_params)
+    cond do
+      user == Guardian.Plug.current_resource(conn) ->
+        case Repo.update(changeset) do
+          {:ok, user} ->
+            conn
+            |> put_flash(:info, "User updated")
+            |> render("edit.html", user: user, changeset: changeset, rooms: rooms,
+                                   layout: {SecureMessenger.LayoutView, "app.html"})
+            # |> redirect(to: user_path(conn, :edit, user))
+          {:error, changeset} ->
+            conn
+            |> put_flash(:error, "Failed to update your profile. See errors below.")
+            |> render("edit.html", user: user, changeset: changeset, rooms: rooms,
+                                   layout: {SecureMessenger.LayoutView, "app.html"})
+        end
+      :error ->
+        conn
+        |> put_flash(:info, "No access")
+        |> redirect(to: session_path(conn, :new))
+    end
+  end
 
   def delete(conn, %{"id" => id}) do
     user = Repo.get!(User, id)

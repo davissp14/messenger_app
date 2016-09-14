@@ -19,65 +19,32 @@
   <body>
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-              <li class="sidebar-brand">
-                <img src=<%= gravatar_img(@conn, 50) %> />
-                <div class="sidebar-user-profile">
-                  <span><%= current_user(@conn).name %></span>
-                  <div>
-                    Edit - Sign Out </div>
-                </div>
+      <%= render SecureMessenger.LayoutView, "side-bar.html", conn: @conn, rooms: @rooms %>
 
-              </li>
-              <li class="sidebar-header">
-                Channels
-                <%= link to: room_path(@conn, :index) do %>
-                  <span class='glyphicon glyphicon-plus pull-right'></span>
-                <% end %>
-              </li>
-
-              <%= for room <- @rooms do %>
-                <li class="room" data-id=<%= room.id %>>
-                  <%= link to: room_path(@conn, :show, room), class: "#{if assigns[:room] && room.id == @room.id, do: "active", else: ""}" do %>
-                      <span># <%= room.name %></span>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
-        </div>
-        <!-- /#sidebar-wrapper -->
-
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div id="chatroom-header">
-              <%= if assigns[:room] do %>
-                <div class="room-information">
-                  <div class='name'>#<%= @room.name %></div>
-                  <div class='number'><%= length(@room.users) %> members</div>
-                </div>
-              <% end %>
-              <div class="user-info">
-                <%= link "Sign out", to: session_path(@conn, :delete, current_user(@conn)), method: :delete, data: [confirm: "Are you sure?"] %>
+      <!-- Page Content -->
+      <div id="page-content-wrapper">
+          <div id="chatroom-header">
+            <%= if assigns[:room] do %>
+              <div class="room-information">
+                <div class='name'>#<%= @room.name %></div>
+                <div class='number'><%= length(@room.users) %> members</div>
               </div>
+            <% end %>
+            <div class="user-info">
+              <%= link "Sign out", to: session_path(@conn, :delete, current_user(@conn)), method: :delete, data: [confirm: "Are you sure?"] %>
             </div>
+          </div>
 
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                      <% if get_flash(@conn, :info) do %>
-                        <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-                      <% end %>
-                      <%= if get_flash(@conn, :error) do %>
-                        <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-                      <% end %>
-                      <%= render @view_module, @view_template, assigns %>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /#page-content-wrapper -->
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-lg-12">
+                    <%= render SecureMessenger.LayoutView, "alerts.html", conn: @conn %>
+                    <%= render @view_module, @view_template, assigns %>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- /#page-content-wrapper -->
 
     </div>
     <!-- /#wrapper -->

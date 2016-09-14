@@ -1,0 +1,34 @@
+<!-- Sidebar -->
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand">
+        <img src=<%= gravatar_img(@conn, 50) %> />
+        <div class="sidebar-user-profile">
+          <div class='sidebar-user-name'>
+            <%= current_user(@conn).name %>
+          </div>
+          <div class="sidebar-user-actions">
+            <span>
+              <%= link "Profile", to: user_path(@conn, :edit, current_user(@conn)) %> -
+              <%= link "Sign Out", to: session_path(@conn, :delete, current_user(@conn)), method: :delete %>
+            </span>
+          </div>
+        </div>
+      </li>
+      <li class="sidebar-header">
+        Channels
+        <%= link to: room_path(@conn, :index) do %>
+          <span class='glyphicon glyphicon-plus pull-right'></span>
+        <% end %>
+      </li>
+
+      <%= for room <- @rooms do %>
+        <li class="room" data-id=<%= room.id %>>
+          <%= link to: room_path(@conn, :show, room), class: "#{if assigns[:room] && room.id == @room.id, do: "active", else: ""}" do %>
+              <span># <%= room.name %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+</div>
+<!-- /#sidebar-wrapper -->

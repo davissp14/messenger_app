@@ -60,24 +60,25 @@
     list-style: none;
 }
 
-.sidebar-nav li {
+.sidebar-nav li a {  color: white; }
+.sidebar-nav li a:hover { background: #113951; }
+.sidebar-nav li a.active { background: #6F8FA2; }
+
+.sidebar-nav li.room, li.sidebar-header {
     text-indent: 20px;
     line-height: 30px;
 }
 
-.sidebar-nav li a {
+.sidebar-nav li.room a {
     display: block;
     text-decoration: none;
-    color: white;
     margin-right: 10px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-
-.sidebar-nav li a:hover { background: #113951; }
-.sidebar-nav li a.active { background: #6F8FA2; }
-
 .sidebar-nav li.room span { padding-left: 10px; }
+
+
 
 .sidebar-nav li.sidebar-header {
   margin-top: 15px;
@@ -94,16 +95,6 @@
   padding: 5px 15px 10px 10px;
 }
 
-.sidebar-nav > .sidebar-brand {
-    height: 65px;
-    font-size: 18px;
-    line-height: 60px;
-}
-
-.sidebar-nav > .sidebar-brand a {
-    color: white;
-}
-
 .sidebar-nav > .sidebar-brand a:hover {
     color: #fff;
     background: none;
@@ -112,24 +103,27 @@
 .sidebar-nav > .sidebar-brand img {
     border-radius: 50px;
     margin-top: 15px;
+    margin-left: 15px;
 }
 
-.sidebar-nav > .sidebar-brand .sidebar-user-profile {
+.sidebar-nav .sidebar-user-profile {
   color: white;
   position: absolute;
-  left: 60px;
+  left: 75px;
   top: 20px;
-  width: 100%;
-  line-height: 23px;
 }
 
-.sidebar-nav > .sidebar-brand .sidebar-user-profile span {
+.sidebar-nav > .sidebar-brand .sidebar-user-name {
   font-size: 18px;
   font-weight: bold;
+  color: white;
 }
-.sidebar-nav > .sidebar-brand .sidebar-user-profile div {
+
+.sidebar-nav > .sidebar-brand .sidebar-user-actions a, form.link {
   font-size: 12px;
+  display: inline;
 }
+
 
 @media(min-width:768px) {
     #wrapper {
