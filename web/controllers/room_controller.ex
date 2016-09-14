@@ -5,6 +5,7 @@ defmodule SecureMessenger.RoomController do
   alias SecureMessenger.Repo
   alias SecureMessenger.UsersRooms
 
+
   def index(conn, _params) do
     rooms = Repo.all(user_rooms(current_user(conn)))
     rooms_to_join = Repo.all(Room) |> Repo.preload([:owner, :users])
@@ -38,7 +39,8 @@ defmodule SecureMessenger.RoomController do
     rooms = Repo.all(user_rooms(current_user(conn)))
     room = Repo.get!(user_rooms(current_user(conn)), id)
     |> Repo.preload([:users, :messages, messages: [:user]])
-    render(conn, "show.html", room: room, rooms: rooms)
+    render(conn, "show.html", room: room, rooms: rooms,
+                              layout: {SecureMessenger.LayoutView, "chat.html"})
   end
 
   def edit(conn, %{"id" => id}) do
