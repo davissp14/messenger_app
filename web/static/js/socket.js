@@ -62,18 +62,44 @@ let room_topic = "channels:" + room_id
 let guardianToken = $('meta[name="guardian_token"]').attr('content')
 
 let channel = socket.channel(room_topic, {guardian_token: guardianToken})
-let member_join = socket.channel("users:join:"+room_id, {guardian_token: guardianToken})
+let hide_message = socket.channel("messages:test")
 
 chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
     if (!chatInput.val().replace(/\s/g, '').length == 0) {
-      channel.push("new_msg", {body: chatInput.val(), room_id: room_id})
+      let incognito = !$('.incognito .toggle').hasClass('off');
+      channel.push("new_msg", {body: chatInput.val(), room_id: room_id, incognito: incognito})
       chatInput.val("")
     }
   }
 })
 
+hide_message.on("destroy_message", payload => {
+  var elem = $("li[data-id='" + payload.message_id + "']");
+  $(elem).animate({ "opacity" : "0"}, 1000, function(){$(elem).remove();});
+})
+
 channel.on("new_msg", payload => {
+  if (payload.incognito == true) {
+    messagesContainer.append(`
+      <li class="left clearfix" data-id=${payload.temp_id}>
+        <span class="chat-img pull-left">
+          <img src=${payload.image + '?s=40'} alt="User Avatar" />
+        </span>
+        <div class="chat-body clearfix">
+          <div class="header">
+            <strong class="primary-font">${payload.name}</strong>
+            <small class="chat-time text-muted">
+              ${payload.time}
+            </small>
+          </div>
+          <p>
+            ${payload.body}
+          </p>
+       </div>
+    </li>
+  `)
+  } else {
   messagesContainer.append(`
     <li class="left clearfix">
       <span class="chat-img pull-left">
@@ -92,10 +118,8 @@ channel.on("new_msg", payload => {
      </div>
   </li>
 `)
+}
 
-member_join.on("new_member", payload => {
-  alert('HERE')
-});
 
 messagesContainer.animate({ scrollTop: messagesContainer[0].scrollHeight}, "slow");})
 
@@ -105,7 +129,8 @@ channel.join()
   })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
-member_join.join()
+
+hide_message.join()
   .receive("ok", resp => {})
   .receive("error", resp => { console.log("Unable to join", resp) })
 

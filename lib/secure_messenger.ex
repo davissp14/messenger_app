@@ -14,6 +14,7 @@ defmodule SecureMessenger do
       supervisor(SecureMessenger.Endpoint, []),
       # Start your own worker by calling: SecureMessenger.Worker.start_link(arg1, arg2, arg3)
       # worker(SecureMessenger.Worker, [arg1, arg2, arg3]),
+      worker(SecureMessenger.Delayed, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
