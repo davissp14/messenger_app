@@ -24,7 +24,7 @@
 
     <div class="chat-panel">
       <label class="checkbox-inline incognito">
-        <input type="checkbox" checked data-toggle="toggle">
+        <input type="checkbox" data-toggle="toggle">
       </label>
       <input class="chat-input" type="text" placeholder="Enter your message"></input>
     </div>
