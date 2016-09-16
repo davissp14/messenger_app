@@ -68,7 +68,9 @@ chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
     if (!chatInput.val().replace(/\s/g, '').length == 0) {
       let incognito = $('.incognito').is(':checked');
-      channel.push("new_msg", {body: chatInput.val(), room_id: room_id, incognito: incognito})
+      channel.push("new_msg", {
+        body: chatInput.val(), room_id: room_id, incognito: incognito
+      })
       chatInput.val("")
     }
   }
@@ -81,47 +83,69 @@ hide_message.on("destroy_message", payload => {
 
 channel.on("new_msg", payload => {
   if (payload.incognito == true) {
-    messagesContainer.append(`
-      <li class="left clearfix snap" data-id=${payload.temp_id}>
-        <span class="chat-img pull-left">
-          <img src=${payload.image + '?s=40'} alt="User Avatar" />
-        </span>
-        <div class="chat-body clearfix">
-          <div class="header">
-            <strong class="primary-font">${payload.name}</strong>
-            <small class="chat-time text-muted">
-              ${payload.time}
-            </small>
-          </div>
-          <p>
-            ${payload.body}
-          </p>
-       </div>
-    </li>
-  `)
+    renderSecretMessage(payload)
   } else {
-  messagesContainer.append(`
+    renderMessage(payload)
+  }
+  $("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "slow");
+})
+
+function renderMessage(message) {
+  var name = sanitize(message.name)
+  var body = sanitize(message.body)
+  var image = message.image + '?s=40'
+  var timestamp = message.time
+
+  $("ul.chat").append(`
     <li class="left clearfix">
       <span class="chat-img pull-left">
-        <img src=${payload.image + '?s=40'} alt="User Avatar" />
+        <img src=${image} alt="User Avatar" />
       </span>
       <div class="chat-body clearfix">
         <div class="header">
-          <strong class="primary-font">${payload.name}</strong>
+          <strong class="primary-font">${name}</strong>
           <small class="chat-time text-muted">
-            ${payload.time}
+            ${timestamp}
           </small>
         </div>
         <p>
-          ${payload.body}
+          ${body}
         </p>
      </div>
   </li>
 `)
 }
 
+function renderSecretMessage(message) {
+  var name = sanitize(message.name)
+  var body = sanitize(message.body)
+  var image = message.image + '?s=40'
+  var timestamp = message.time
+  var temp_id = message.temp_id
 
-messagesContainer.animate({ scrollTop: messagesContainer[0].scrollHeight}, "slow");})
+  $("ul.chat").append(`
+    <li class="left clearfix snap" data-id=${temp_id}>
+      <span class="chat-img pull-left">
+        <img src=${image} alt="User Avatar" />
+      </span>
+      <div class="chat-body clearfix">
+        <div class="header">
+          <strong class="primary-font">${name}</strong>
+          <small class="chat-time text-muted">
+            ${timestamp}
+          </small>
+        </div>
+        <p>
+          ${body}
+        </p>
+     </div>
+  </li>
+`)
+}
+
+function sanitize(str) { return $('<div />').text(str).html() }
+
+$("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "fast");
 
 channel.join()
   .receive("ok", resp => {
