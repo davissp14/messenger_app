@@ -26,11 +26,11 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="input-group">
-            <span class="input-group-addon incognito">
+            <span class="input-group-addon">
               Off the Record
-              <input type="checkbox" aria-label="Checkbox for following text input">
+              <input type="checkbox" class="incognito" aria-label="Checkbox for following text input">
             </span>
-            <input type="text" class="form-control chat-input input-lg" placeholder="Enter your message" aria-label="Text input with checkbox">
+            <input type="text" class="form-control chat-input" placeholder="Enter your message" aria-label="Text input with checkbox">
           </div>
         </div>
       </div>

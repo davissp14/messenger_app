@@ -26,7 +26,7 @@
 
 .chat {
   position: fixed;
-  bottom: 65px;
+  bottom: 50px;
   left: 250px;
   right: 0;
   max-height: 100%;
@@ -37,6 +37,15 @@
 
 .chat li {
     margin-bottom: 10px;
+}
+
+.chat li.snap {
+  border: 1px solid rgba(168,168,168, 0.5);
+  background-color: rgba(40,83,108,0.1);
+  -webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .chat li.left .chat-body
