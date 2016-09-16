@@ -3,36 +3,28 @@ div.search {
 
 }
 
-div.search .search-container {
-
-}
-
-div.search .search-container .search-header {
+div.browse-channels {
   font-size: 26px;
-  padding: 10px;
+  padding: 15px;
 }
 
-div.search .search-container .search-input {
-  padding: 20px 0;
+div.create-channel {
+  padding: 15px;
 }
 
-div.search .search-container .search-input form.navbar-form {
-  padding: 0;
-}
-
-div.search .search-container .search-results {
+div.search-results {
   line-height: 22px;
   height: 80vh;
   overflow-y: scroll;
 }
 
-div.search .search-container .search-results ul {
+div.search-results ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-div.search .search-container .search-results li {
+div.search-results li {
   border-top: 1px solid #d3d3d3;
   border-left: 1px solid white;
   border-right: 1px solid white;
@@ -40,22 +32,26 @@ div.search .search-container .search-results li {
   cursor: pointer;
 }
 
-div.search .search-container .search-results li  a {
+div.search-results li  a {
   text-decoration: none;
   color: #545454;
 }
 
-div.search .search-container .search-results li:hover {
+div.search-results li:hover {
   background-color: #f1f1f1;
 }
 
-div.search .search-container .room-overview {
+div.search-results .room-overview {
   padding: 10px;
 }
 
-div.search .search-container .room-overview .room-name {
+div.search-results .room-overview .room-name {
   font-size: 16px;
 }
-div.search .search-container .room-overview .room-desc {
+div.search-results .room-overview .room-desc {
   font-size: 16px;
+}
+
+@media(max-width:768px) {
+
 }

@@ -1,11 +1,54 @@
-<div class="col-lg-12 search">
+
+<div class="channel-list">
+  <div class="row">
+    <div class="col-sm-12 browse-channels">
+      Browse all <%= length(@rooms_to_join) %> Channels
+      <%= link "Create Room", to: room_path(@conn, :new), class: "btn btn-primary" %>
+    </div>
+    <div class="col-sm-8 create-channel">
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 search-results">
+      <ul>
+        <%= for room <- @rooms_to_join do %>
+          <li>
+            <%= link to: room_path(@conn, :join, room.id) do %>
+            <div class='room-overview'>
+               <div class='room-name'>
+                 #<strong> <%= room.name %></strong>
+                 <span class='membership-status'>
+                   <%= for user <- room.users do %>
+                      <%= if user == current_user(@conn) do %>
+                        (Already Joined)
+                      <% end %>
+                    <% end %>
+                 </span>
+                <span class="pull-right"><span class="glyphicon glyphicon-user"></span> <%= length(room.users) %> </span>
+               </div>
+               <div class='room-owner'>
+                 <i>Created by</i> <%= room.owner.name %> <i>on </i> <%= Timex.format!(room.inserted_at, "%B %d, %Y", :strftime) %></div>
+               <div class='room-desc'><%= room.description %></div>
+               <%#= link "Join", to: room_path(@conn, :join, room.id), class: "btn btn-primary btn-sm" %>
+            </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="col-lg-12 search">
+
   <div class="search-container">
 
     <div class="search-header">
       Browse all <%= length(@rooms_to_join) %> Channels
       <%= link "Create Room", to: room_path(@conn, :new), class: "btn-primary btn pull-right" %>
     </div>
-    
+
     <div class="search-results">
       <ul>
         <%= for room <- @rooms_to_join do %>

@@ -1,6 +1,7 @@
 <h2>Edit user</h2>
 
 <%= form_for @changeset, user_path(@conn, :update, @user), fn f -> %>
+
   <div class="form-group">
     <%= label f, :name, class: "control-label" %>
     <%= text_input f, :name, class: "form-control", placeholder: "John Doe" %>
@@ -11,6 +12,12 @@
     <%= label f, :email, class: "control-label" %>
     <%= text_input f, :email, class: "form-control", placeholder: "youremail@gmail.com" %>
     <%= error_tag f, :email %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :timezone, class: "control-label" %>
+    <%= select(f, :timezone, @timezones, class: "form-control") %>
+    <%= error_tag f, :timezone %>
   </div>
 
   <div class="form-group">

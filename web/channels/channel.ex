@@ -32,7 +32,10 @@ defmodule SecureMessenger.Channel do
   def handle_in("new_msg", %{"body" => body, "room_id" => room_id, "incognito" => incognito}, socket) do
     user = current_resource(socket)
     temp_id = :rand.uniform(99999)
-    current_time = Timex.format!(Timex.now, "%l:%M%P", :strftime)
+
+    timezone = Timex.Timezone.get(user.timezone, Timex.now)
+    current_time = Timex.Timezone.convert(Timex.now, timezone)
+    current_time = Timex.format!(current_time, "%l:%M%P", :strftime)
     if incognito do
       broadcast! socket, "new_msg", %{temp_id: temp_id, incognito: incognito, image: user.gravatar_url, name: user.name, body: body, time: current_time}
       SecureMessenger.Delayed.schedule_removal(temp_id)

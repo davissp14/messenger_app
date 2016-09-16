@@ -10,7 +10,7 @@
               <div class="header">
                 <strong class="primary-font"><%= message.user.name %></strong>
                 <small class="chat-time text-muted">
-                  <%= Timex.format!(message.inserted_at, "%l:%M%P", :strftime) %>
+                  <%= convert_time(@conn, message.inserted_at) %>
                 </small>
               </div>
               <p>

@@ -4,6 +4,7 @@ defmodule SecureMessenger.User do
   schema "users" do
     field :name, :string
     field :email, :string
+    field :timezone, :string
     field :password, :string, virtual: true
     field :crypted_password, :string
     field :gravatar_url, :string
@@ -25,9 +26,9 @@ defmodule SecureMessenger.User do
 
   def update_changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :email])
+    |> cast(params, [:name, :email, :timezone])
     |> unique_constraint(:email)
-    |> validate_required([:email, :name])
+    |> validate_required([:email, :name, :timezone])
     |> validate_length(:email, min: 5)
     |> validate_length(:name, min: 2)
   end

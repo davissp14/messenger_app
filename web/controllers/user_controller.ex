@@ -1,8 +1,10 @@
 defmodule SecureMessenger.UserController do
   use SecureMessenger.Web, :controller
   import Ecto.Changeset, only: [put_change: 3]
+  import Ecto.Query
   alias SecureMessenger.User
   alias SecureMessenger.Room
+  import Logger
 
   plug :put_layout, "login.html"
 
@@ -50,13 +52,19 @@ defmodule SecureMessenger.UserController do
   def edit(conn, %{"id" => id}) do
     user = Repo.get!(User, id)
     rooms = Repo.all(assoc(user, :rooms))
+    {:ok, timezone_list} = Ecto.Adapters.SQL.query(SecureMessenger.Repo,"select name from pg_timezone_names where name LIKE 'America%' ORDER BY utc_offset;",[])
+    timezones = List.flatten(timezone_list.rows)
+
     changeset = User.update_changeset(user)
-    render(conn, "edit.html", user: user, rooms: rooms, changeset: changeset, layout: {SecureMessenger.LayoutView, "app.html"})
+    render(conn, "edit.html", timezones: timezones, user: user, rooms: rooms, changeset: changeset, layout: {SecureMessenger.LayoutView, "app.html"})
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Repo.get(User, id)
     rooms = Repo.all(assoc(user, :rooms))
+    {:ok, timezone_list} = Ecto.Adapters.SQL.query(SecureMessenger.Repo,"select name from pg_timezone_names where name LIKE 'America%' ORDER BY name;",[])
+    timezones = List.flatten(timezone_list.rows)
+
     changeset = User.update_changeset(user, user_params)
     cond do
       user == Guardian.Plug.current_resource(conn) ->
@@ -64,13 +72,13 @@ defmodule SecureMessenger.UserController do
           {:ok, user} ->
             conn
             |> put_flash(:info, "User updated")
-            |> render("edit.html", user: user, changeset: changeset, rooms: rooms,
+            |> render("edit.html", user: user, changeset: changeset, rooms: rooms, timezones: timezones,
                                    layout: {SecureMessenger.LayoutView, "app.html"})
             # |> redirect(to: user_path(conn, :edit, user))
           {:error, changeset} ->
             conn
             |> put_flash(:error, "Failed to update your profile. See errors below.")
-            |> render("edit.html", user: user, changeset: changeset, rooms: rooms,
+            |> render("edit.html", user: user, changeset: changeset, rooms: rooms, timezones: timezones,
                                    layout: {SecureMessenger.LayoutView, "app.html"})
         end
       :error ->
