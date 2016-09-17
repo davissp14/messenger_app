@@ -1,0 +1,30 @@
+div.members-panel {
+  border: 1px solid rgba(168,168,168, 0.2);
+  position: fixed;
+  right: 0;
+  top: 70px;
+  width: 250px;
+  height: 100%;
+}
+
+div.members-panel ul {
+  padding-left: 15px;
+  list-style: none;
+}
+
+div.members-panel li {
+  padding: 3px 0px;
+}
+
+div.members-panel li.header {
+  font-size: 20px;
+  line-height: 40px;
+}
+
+div.members-panel img {
+  border-radius: 5px;
+}
+
+div.members-panel .online-status {
+  padding-right: 10px;
+}

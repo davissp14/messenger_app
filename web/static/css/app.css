@@ -22,6 +22,14 @@ html, body {
   height: 100px;
 }
 
-.btn-primary {
-  
+.circle {
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+  border: 1px solid rgba(0,0,0, 0.2);
+  cursor: default;
 }

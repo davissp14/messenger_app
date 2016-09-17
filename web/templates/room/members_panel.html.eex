@@ -1,0 +1,26 @@
+<ul>
+  <li class="header">
+    Member Directory
+  </li>
+  <%= for user <- @room.users do %>
+    <li id=<%= user.id %>>
+      <span class="online-status">
+        <%= if @active_users[inspect user.id] do %>
+          <button type="button" class="btn btn-success circle"></button>
+        <% else %>
+          <button type="button" class="btn btn-secondary circle"></button>
+        <% end %>
+      </span>
+      <span>
+        <img src=<%= user.gravatar_url <> "?s=25" %> alt="User Avatar" />
+      </span>
+      <span>
+        <%= if current_user(@conn) == user do %>
+          <%= user.name <> " (you)" %>
+        <% else %>
+          <%= user.name %>
+        <% end %>
+      </span>
+    <li>
+  <% end %>
+</ul>

@@ -12,6 +12,8 @@ defmodule SecureMessenger do
       supervisor(SecureMessenger.Repo, []),
       # Start the endpoint when the application starts
       supervisor(SecureMessenger.Endpoint, []),
+
+      supervisor(SecureMessenger.Presence, []),
       # Start your own worker by calling: SecureMessenger.Worker.start_link(arg1, arg2, arg3)
       # worker(SecureMessenger.Worker, [arg1, arg2, arg3]),
       worker(SecureMessenger.Delayed, [])

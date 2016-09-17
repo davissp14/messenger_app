@@ -1,6 +1,5 @@
 defmodule SecureMessenger.RoomController do
   use SecureMessenger.Web, :controller
-  import Ecto.Query
   alias SecureMessenger.Room
   alias SecureMessenger.Repo
   alias SecureMessenger.UsersRooms
@@ -36,10 +35,12 @@ defmodule SecureMessenger.RoomController do
   end
 
   def show(conn, %{"id" => id}) do
+    active_users = Phoenix.Presence.list(SecureMessenger.Presence, "channels:" <> id)
     rooms = Repo.all(user_rooms(current_user(conn)))
     room = Repo.get!(user_rooms(current_user(conn)), id)
     |> Repo.preload([:users, :messages, messages: [:user]])
     render(conn, "show.html", room: room, rooms: rooms,
+                              active_users: active_users,
                               layout: {SecureMessenger.LayoutView, "chat.html"})
   end
 
@@ -77,8 +78,6 @@ defmodule SecureMessenger.RoomController do
 
   def join(conn, %{"id" => id}) do
     user_room = UsersRooms.changeset(%UsersRooms{user_id: current_user(conn).id, room_id: String.to_integer(id)}, %{})
-
-    # SecureMessenger.Endpoint.broadcast!("users:join:" <> String.to_integer(id), "new_member", %{})
 
     case  SecureMessenger.Repo.insert(user_room) do
         {:ok, user_room} ->

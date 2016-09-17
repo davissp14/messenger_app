@@ -3,13 +3,18 @@ defmodule SecureMessenger.Channel do
   use Guardian.Channel
   alias SecureMessenger.Repo
   alias SecureMessenger.Message
+  alias SecureMessenger.Presence
   import Logger
 
   def join("channels:" <> _private_room_id, %{ claims: claims, resource: resource }, socket) do
-    {:ok, socket}
+    send(self, :after_join)
+    {:ok, assign(socket, :user_id, current_resource(socket).id)}
   end
 
-  def join("users:join:" <> _private_room_id, %{ claims: claims, resource: resource }, socket) do
+  def terminate(topic, socket) do
+    if socket.assigns[:user_id] do
+      broadcast! socket, "member_leave", %{user_id: socket.assigns.user_id}
+    end
     {:ok, socket}
   end
 
@@ -21,12 +26,17 @@ defmodule SecureMessenger.Channel do
     {:error, %{reason: "unauthorized"}}
   end
 
-  def join("users:join:" <> _private_room_id, _params, _socket) do
+  def join("messages:test", _params, _socket) do
     {:error, %{reason: "unauthorized"}}
   end
 
-  def join("messages:test", _params, _socket) do
-    {:error, %{reason: "unauthorized"}}
+  def handle_info(:after_join, socket) do
+    push socket, "presence_state", Presence.list(socket)
+    {:ok, _} = Presence.track(socket, socket.assigns.user_id, %{
+      online_at: inspect(System.system_time(:seconds))
+    })
+    broadcast! socket, "member_joined", %{user_id: socket.assigns.user_id}
+    {:noreply, socket}
   end
 
   def handle_in("new_msg", %{"body" => body, "room_id" => room_id, "incognito" => incognito}, socket) do
@@ -48,12 +58,6 @@ defmodule SecureMessenger.Channel do
     {:noreply, socket}
   end
 
-  def handle_in("new_member", %{"room_id" => room_id}, socket) do
-    user = current_resource(socket)
-    current_time = Timex.format!(Timex.now, "%l:%M%P", :strftime)
-    broadcast! socket, "new_member", %{image: user.gravatar_url, name: user.name, body: "joined the room", time: current_time}
-    {:noreply, socket}
-  end
 
   def handle_in("destory_message", %{"message_id" => message_id}, socket) do
     user = current_resource(socket)

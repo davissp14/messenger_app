@@ -90,6 +90,18 @@ channel.on("new_msg", payload => {
   $("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "slow");
 })
 
+channel.on("member_joined", payload => {
+  var elem = $('li#' + payload.user_id + " button")
+  $(elem).removeClass('btn-secondary')
+  $(elem).addClass('btn-success')
+})
+
+channel.on("member_leave", payload => {
+  var elem = $('li#' + payload.user_id + " button")
+  $(elem).removeClass('btn-success')
+  $(elem).addClass('btn-secondary')
+})
+
 function renderMessage(message) {
   var name = sanitize(message.name)
   var body = sanitize(message.body)
