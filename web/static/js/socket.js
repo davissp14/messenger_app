@@ -62,7 +62,6 @@ let room_topic = "channels:" + room_id
 let guardianToken = $('meta[name="guardian_token"]').attr('content')
 
 let channel = socket.channel(room_topic, {guardian_token: guardianToken})
-let hide_message = socket.channel("messages:test")
 
 chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
@@ -76,7 +75,7 @@ chatInput.on("keypress", event => {
   }
 })
 
-hide_message.on("destroy_message", payload => {
+channel.on("destroy_message", payload => {
   var elem = $("li[data-id='" + payload.message_id + "']");
   $(elem).animate({ "opacity" : "0"}, 1000, function(){$(elem).remove();});
 })
@@ -163,11 +162,6 @@ channel.join()
   .receive("ok", resp => {
     $("ul.chat").scrollTop($("ul.chat")[0].scrollHeight);
   })
-  .receive("error", resp => { console.log("Unable to join", resp) })
-
-
-hide_message.join()
-  .receive("ok", resp => {})
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 export default socket

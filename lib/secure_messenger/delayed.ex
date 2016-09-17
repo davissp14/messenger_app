@@ -10,28 +10,22 @@ defmodule SecureMessenger.Delayed do
     {:ok, []}
   end
 
-  def schedule_removal(target) do
-    GenServer.cast(:delayed, {:schedule_removal, target})
+  def schedule_removal(channel, message_id) do
+    GenServer.cast(:delayed, {:schedule_removal, channel, message_id})
   end
 
-  def handle_cast({:schedule_removal, target}, state) do
-    # SecureMessenger.Endpoint.broadcast("messages:test", "destroy_message", %{message_id: state})
+  def handle_cast({:schedule_removal, channel, message_id}, state) do
     Process.send_after(:delayed, :remove_message, 1000 * 10)
+    target = "#{channel}:#{message_id}"
     {:noreply, [target | state]}
   end
 
-  # def schedule_it(state) do
-  #   Logger.debug "Scheduling removal for: " <> inspect state
-  #
-  #   {:noreply, state}
-  # end
-
   def handle_info(:remove_message, state) do
-    Logger.debug inspect state
-    target_id = List.last(state)
+    target = String.split(List.last(state), ":")
     adjusted_state = List.delete_at(state, -1)
-    Logger.debug "Targeting " <> inspect target_id
-    SecureMessenger.Endpoint.broadcast("messages:test", "destroy_message", %{message_id: target_id})
+    channel = "channels:" <> List.first(target)
+    message_id = List.last(target)
+    SecureMessenger.Endpoint.broadcast(channel, "destroy_message", %{message_id: message_id})
 
     {:noreply, adjusted_state}
   end
