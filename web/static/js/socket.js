@@ -61,6 +61,8 @@ let room_topic = "channels:" + room_id
 let guardianToken = $('meta[name="guardian_token"]').attr('content')
 let channel = socket.channel(room_topic, {guardian_token: guardianToken})
 
+messagesContainer.animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "fast");
+
 chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
     if (!chatInput.val().replace(/\s/g, '').length == 0) {
@@ -87,15 +89,15 @@ chatInput.on("keypress", event => {
   }
 })
 
-channel.on("destroy_message", payload => {
-  var elem = $("li[data-id='" + payload.message_id + "']");
-  $(elem).animate({ "opacity" : "0"}, 1000, function(){$(elem).remove();});
-})
-
 channel.on("new_msg", payload => {
    messagesContainer.append(payload.message)
    $("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "slow");
    chatInput.val('')
+})
+
+channel.on("destroy_message", payload => {
+  var elem = $("li[data-id='" + payload.message_id + "']");
+  $(elem).animate({ "opacity" : "0"}, 1000, function(){$(elem).remove();});
 })
 
 channel.on("member_joined", payload => {
@@ -109,9 +111,6 @@ channel.on("member_leave", payload => {
   $(elem).removeClass('btn-success')
   $(elem).addClass('btn-secondary')
 })
-
-
-$("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "fast");
 
 channel.join()
   .receive("ok", resp => {
