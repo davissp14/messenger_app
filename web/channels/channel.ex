@@ -4,6 +4,7 @@ defmodule SecureMessenger.Channel do
   alias SecureMessenger.Repo
   alias SecureMessenger.Message
   alias SecureMessenger.Presence
+  alias SecureMessenger.User
   import Logger
 
   def join("channels:" <> _private_room_id, %{ claims: claims, resource: resource }, socket) do
@@ -31,21 +32,10 @@ defmodule SecureMessenger.Channel do
     {:noreply, socket}
   end
 
-  def handle_in("new_msg", %{"body" => body, "room_id" => room_id, "incognito" => incognito}, socket) do
+  def handle_in("new_msg", %{"message" => message, "room_id" => room_id, "temp_id" => temp_id}, socket) do
     user = current_resource(socket)
-    temp_id = :rand.uniform(99999)
-
-    timezone = Timex.Timezone.get(user.timezone, Timex.now)
-    current_time = Timex.Timezone.convert(Timex.now, timezone)
-    current_time = Timex.format!(current_time, "%l:%M%P", :strftime)
-    if incognito do
-      broadcast! socket, "new_msg", %{temp_id: temp_id, incognito: incognito, image: user.gravatar_url, name: user.name, body: body, time: current_time}
-      SecureMessenger.Delayed.schedule_removal(room_id, temp_id)
-    else
-      changeset = Message.changeset(%Message{room_id: room_id, user_id: user.id, body: body}, %{})
-      Repo.insert(changeset)
-      broadcast! socket, "new_msg", %{temp_id: nil, incognito: incognito, image: user.gravatar_url, name: user.name, body: body, time: current_time}
-    end
+    SecureMessenger.Delayed.schedule_removal(room_id, temp_id)
+    broadcast! socket, "new_msg", %{message: message}
 
     {:noreply, socket}
   end

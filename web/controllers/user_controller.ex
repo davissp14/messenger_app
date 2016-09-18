@@ -17,7 +17,6 @@ defmodule SecureMessenger.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    gravatar_url =
     changeset = User.changeset(%User{}, user_params)
     |> put_change(:crypted_password, Comeonin.Bcrypt.hashpwsalt(user_params["password"]))
     |> put_change(:gravatar_url, Gravatar.gravatar_url(user_params["email"], secure: true))

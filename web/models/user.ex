@@ -33,4 +33,9 @@ defmodule SecureMessenger.User do
     |> validate_length(:name, min: 2)
   end
 
+  def online_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:online])
+  end
+
 end
