@@ -1,0 +1,16 @@
+<li class="left clearfix">
+  <span class="chat-img pull-left">
+    <img src="<%= @message.user.gravatar_url <> "?s=40" %>" alt="User Avatar" />
+  </span>
+  <div class="chat-body clearfix">
+    <div class="header">
+      <strong class="primary-font"><%= @message.user.name %></strong>
+      <small class="chat-time text-muted">
+        <%= convert_time(@conn, @message.inserted_at) %>
+      </small>
+    </div>
+    <p>
+     <%= @message.body %>
+    </p>
+ </div>
+</li>

@@ -31,6 +31,7 @@ defmodule SecureMessenger.Router do
     pipe_through [:browser, :browser_auth] # Use the default browser stack
     resources "/", RoomController
     get "/:id/join", RoomController, :join
+    resources "/messages", MessageController
   end
 
   # Other scopes may use custom stacks.
