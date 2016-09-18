@@ -20,7 +20,7 @@ defmodule SecureMessenger.User do
     struct
     |> cast(params, [:name, :email, :password], [:crypted_password])
     |> unique_constraint(:email)
-    |> validate_required([:email, :name, :crypted_password])
+    |> validate_required([:email, :name, :password])
     |> validate_length(:password, min: 5)
   end
 
