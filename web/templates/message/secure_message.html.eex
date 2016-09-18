@@ -1,0 +1,16 @@
+<li class="left clearfix snap" data-id=<%= @temp_id %>>
+  <span class="chat-img pull-left">
+    <img src="<%= @user.gravatar_url <> "?s=40" %>" alt="User Avatar" />
+  </span>
+  <div class="chat-body clearfix">
+    <div class="header">
+      <strong class="primary-font"><%= @user.name %></strong>
+      <small class="chat-time text-muted">
+        <%= convert_time(@conn, Timex.now) %>
+      </small>
+    </div>
+    <p>
+     <%= raw(convert_text(@message)) %>
+    </p>
+ </div>
+</li>

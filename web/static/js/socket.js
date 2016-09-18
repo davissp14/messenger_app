@@ -57,20 +57,34 @@ socket.connect()
 let chatInput = $(".chat-input")
 let messagesContainer = $("ul.chat")
 let room_id = messagesContainer.data("id")
-
 let room_topic = "channels:" + room_id
 let guardianToken = $('meta[name="guardian_token"]').attr('content')
-
 let channel = socket.channel(room_topic, {guardian_token: guardianToken})
 
 chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
     if (!chatInput.val().replace(/\s/g, '').length == 0) {
-      let incognito = $('.incognito').is(':checked');
-      channel.push("new_msg", {
-        body: chatInput.val(), room_id: room_id, incognito: incognito
+      $.ajax({
+         type: "POST",
+         url: "/messages",
+         data: {
+           _csrf_token: $('input[name="_csrf_token"]').val(),
+           message: {
+             body: chatInput.val(),
+             room_id: room_id,
+             incognito: $('.incognito').is(':checked')
+           }
+         },
+         success: e => {
+           channel.push("new_msg", {
+             message: e["message"], room_id: e["room_id"], temp_id: e["temp_id"]
+           })
+         },
+         error: e => {
+           console.log("ERROR")
+           console.log(e)
+         }
       })
-      chatInput.val("")
     }
   }
 })
@@ -81,12 +95,9 @@ channel.on("destroy_message", payload => {
 })
 
 channel.on("new_msg", payload => {
-  if (payload.incognito == true) {
-    renderSecretMessage(payload)
-  } else {
-    renderMessage(payload)
-  }
-  $("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "slow");
+   messagesContainer.append(payload.message)
+   $("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "slow");
+   chatInput.val('')
 })
 
 channel.on("member_joined", payload => {
@@ -101,60 +112,6 @@ channel.on("member_leave", payload => {
   $(elem).addClass('btn-secondary')
 })
 
-function renderMessage(message) {
-  var name = sanitize(message.name)
-  var body = sanitize(message.body)
-  var image = message.image + '?s=40'
-  var timestamp = message.time
-
-  $("ul.chat").append(`
-    <li class="left clearfix">
-      <span class="chat-img pull-left">
-        <img src=${image} alt="User Avatar" />
-      </span>
-      <div class="chat-body clearfix">
-        <div class="header">
-          <strong class="primary-font">${name}</strong>
-          <small class="chat-time text-muted">
-            ${timestamp}
-          </small>
-        </div>
-        <p>
-          ${body}
-        </p>
-     </div>
-  </li>
-`)
-}
-
-function renderSecretMessage(message) {
-  var name = sanitize(message.name)
-  var body = sanitize(message.body)
-  var image = message.image + '?s=40'
-  var timestamp = message.time
-  var temp_id = message.temp_id
-
-  $("ul.chat").append(`
-    <li class="left clearfix snap" data-id=${temp_id}>
-      <span class="chat-img pull-left">
-        <img src=${image} alt="User Avatar" />
-      </span>
-      <div class="chat-body clearfix">
-        <div class="header">
-          <strong class="primary-font">${name}</strong>
-          <small class="chat-time text-muted">
-            ${timestamp}
-          </small>
-        </div>
-        <p>
-          ${body}
-        </p>
-     </div>
-  </li>
-`)
-}
-
-function sanitize(str) { return $('<div />').text(str).html() }
 
 $("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "fast");
 
