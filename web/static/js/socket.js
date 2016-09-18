@@ -75,10 +75,8 @@ chatInput.on("keypress", event => {
              incognito: $('.incognito').is(':checked')
            }
          },
-         success: e => {
-           channel.push("new_msg", {
-             message: e["message"], room_id: e["room_id"], temp_id: e["temp_id"]
-           })
+         success: result => {
+           channel.push("new_msg", result)
          },
          error: e => {
            console.log("ERROR")
