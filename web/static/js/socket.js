@@ -57,10 +57,8 @@ socket.connect()
 let chatInput = $(".chat-input")
 let messagesContainer = $("ul.chat")
 let room_id = messagesContainer.data("id")
-
 let room_topic = "channels:" + room_id
 let guardianToken = $('meta[name="guardian_token"]').attr('content')
-
 let channel = socket.channel(room_topic, {guardian_token: guardianToken})
 
 chatInput.on("keypress", event => {
@@ -78,27 +76,15 @@ chatInput.on("keypress", event => {
            }
          },
          success: e => {
-           messagesContainer.append(e["message"])
-           $("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "slow");
+           channel.push("new_msg", {
+             message: e["message"], room_id: e["room_id"], temp_id: e["temp_id"]
+           })
          },
          error: e => {
            console.log("ERROR")
            console.log(e)
-          //  alert.text(e.responseJSON["message"])
-          //  alert.show()
          }
-       })
-
-
-
-       // channel.push("new_msg", {
-       //   body: chatInput.val(), room_id: room_id, incognito: incognito
-       // })
-      // let incognito = $('.incognito').is(':checked');
-      // channel.push("new_msg", {
-      //   body: chatInput.val(), room_id: room_id, incognito: incognito
-      // })
-      // chatInput.val("")
+      })
     }
   }
 })
@@ -109,12 +95,9 @@ channel.on("destroy_message", payload => {
 })
 
 channel.on("new_msg", payload => {
-  if (payload.incognito == true) {
-    renderSecretMessage(payload)
-  } else {
-    renderMessage(payload)
-  }
-  $("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "slow");
+   messagesContainer.append(payload.message)
+   $("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "slow");
+   chatInput.val('')
 })
 
 channel.on("member_joined", payload => {
@@ -129,67 +112,6 @@ channel.on("member_leave", payload => {
   $(elem).addClass('btn-secondary')
 })
 
-function renderMessage(message) {
-  var name = sanitize(message.name)
-  var body = urlify(sanitize(message.body))
-  var image = message.image + '?s=40'
-  var timestamp = message.time
-
-  $("ul.chat").append(`
-    <li class="left clearfix">
-      <span class="chat-img pull-left">
-        <img src=${image} alt="User Avatar" />
-      </span>
-      <div class="chat-body clearfix">
-        <div class="header">
-          <strong class="primary-font">${name}</strong>
-          <small class="chat-time text-muted">
-            ${timestamp}
-          </small>
-        </div>
-        <p>
-          ${body}
-        </p>
-     </div>
-  </li>
-`)
-}
-
-function renderSecretMessage(message) {
-  var name = sanitize(message.name)
-  var body = urlify(sanitize(message.body))
-  var image = message.image + '?s=40'
-  var timestamp = message.time
-  var temp_id = message.temp_id
-
-  $("ul.chat").append(`
-    <li class="left clearfix snap" data-id=${temp_id}>
-      <span class="chat-img pull-left">
-        <img src=${image} alt="User Avatar" />
-      </span>
-      <div class="chat-body clearfix">
-        <div class="header">
-          <strong class="primary-font">${name}</strong>
-          <small class="chat-time text-muted">
-            ${timestamp}
-          </small>
-        </div>
-        <p>
-          ${body}
-        </p>
-     </div>
-  </li>
-`)
-}
-
-function urlify(text) {
-    var urlRegex = /((?:(http|https|Http|Https|rtsp|Rtsp):\/\/(?:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,64}(?:\:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,25})?\@)?)?((?:(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}\.)+(?:(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])|(?:biz|b[abdefghijmnorstvwyz])|(?:cat|com|coop|c[acdfghiklmnoruvxyz])|d[ejkmoz]|(?:edu|e[cegrstu])|f[ijkmor]|(?:gov|g[abdefghilmnpqrstuwy])|h[kmnrtu]|(?:info|int|i[delmnoqrst])|(?:jobs|j[emop])|k[eghimnrwyz]|l[abcikrstuvy]|(?:mil|mobi|museum|m[acdghklmnopqrstuvwxyz])|(?:name|net|n[acefgilopruz])|(?:org|om)|(?:pro|p[aefghklmnrstwy])|qa|r[eouw]|s[abcdeghijklmnortuvyz]|(?:tel|travel|t[cdfghjklmnoprtvwz])|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]))|(?:(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])))(?:\:\d{1,5})?)(\/(?:(?:[a-zA-Z0-9\;\/\?\:\@\&\=\#\~\-\.\+\!\*\'\(\)\,\_])|(?:\%[a-fA-F0-9]{2}))*)?(?:\b|$)/gi
-    return text.replace(urlRegex, function(url) {
-        return '<a href="' + url + '" target="_blank">' + url + '</a>';
-    })
-}
-
-function sanitize(str) { return $('<div />').text(str).html() }
 
 $("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "fast");
 

@@ -10,7 +10,7 @@
       </small>
     </div>
     <p>
-     <%= @message.body %>
+     <%= raw(convert_text(@message.body)) %>
     </p>
  </div>
 </li>

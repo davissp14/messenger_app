@@ -32,16 +32,10 @@ defmodule SecureMessenger.Channel do
     {:noreply, socket}
   end
 
-  def handle_in("new_msg", %{"html" => html, "icognito" => incognito, "room_id" => room_id}, socket) do
+  def handle_in("new_msg", %{"message" => message, "room_id" => room_id, "temp_id" => temp_id}, socket) do
     user = current_resource(socket)
-    temp_id = :rand.uniform(99999)
-
-    if incognito do
-      broadcast! socket, "new_msg", %{message: html, temp_id: temp_id}
-      SecureMessenger.Delayed.schedule_removal(room_id, temp_id)
-    else
-      broadcast! socket, "new_msg", %{message: html}
-    end
+    SecureMessenger.Delayed.schedule_removal(room_id, temp_id)
+    broadcast! socket, "new_msg", %{message: message}
 
     {:noreply, socket}
   end
