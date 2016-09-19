@@ -61,7 +61,7 @@ let room_topic = "channels:" + room_id
 let guardianToken = $('meta[name="guardian_token"]').attr('content')
 let channel = socket.channel(room_topic, {guardian_token: guardianToken})
 
-messagesContainer.animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "fast");
+$('.panel-body').animate({ scrollTop: $(".panel-body")[0].scrollHeight}, "fast");
 
 chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
@@ -91,7 +91,7 @@ chatInput.on("keypress", event => {
 
 channel.on("new_msg", payload => {
    messagesContainer.append(payload.message)
-   $("ul.chat").animate({ scrollTop: $("ul.chat")[0].scrollHeight}, "slow");
+   $(".panel-body").animate({ scrollTop: $(".panel-body")[0].scrollHeight}, "slow");
    chatInput.val('')
 })
 

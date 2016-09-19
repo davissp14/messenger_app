@@ -24,16 +24,24 @@
   color: gray;
 }
 
-.chat {
+
+.panel-body {
   position: fixed;
-  bottom: 60px;
   left: 250px;
-  right: 0;
-  margin-right: 250px;
+  top: 70px;
+  bottom: 75px;
+  right: 250px;
   max-height: 100%;
   overflow-y: scroll;
+  padding-bottom: 0;
+}
+
+.chat {
+  overflow-y: scroll;
   list-style: none;
-  padding: 20px 20px 0px 20px;
+  padding: 0px 20px;
+  margin-bottom: 0px;
+
 }
 
 .chat li {
@@ -108,13 +116,14 @@
   right: 0;
   left: 250px;
   margin-right: 250px;
-  padding: 15px 20px;
+  padding: 20px 20px;
 }
 
 .chat-panel .chat-input {
   border: 2px solid #dbdbdb;
   border-radius: 5px;
   background: rgba(255,255,255,0.5);
+
 }
 
 @media(max-width:768px) {
