@@ -28,12 +28,11 @@
 .panel-body {
   position: fixed;
   left: 250px;
-  top: 70px;
   bottom: 75px;
   right: 250px;
-  max-height: 100%;
+  max-height: calc(100% - 145px);
   overflow-y: scroll;
-  padding-bottom: 0;
+  padding: 15px 0 0 0;
 }
 
 .chat {
@@ -41,7 +40,6 @@
   list-style: none;
   padding: 0px 20px;
   margin-bottom: 0px;
-
 }
 
 .chat li {
@@ -127,7 +125,7 @@
 }
 
 @media(max-width:768px) {
-  #chatroom-header, .chat {
+  #chatroom-header, .panel-body {
     left: 0px;
   }
   .chat-panel {
