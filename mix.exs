@@ -19,7 +19,7 @@ defmodule SecureMessenger.Mixfile do
   def application do
     [mod: {SecureMessenger, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_pubsub_redis, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :timex, :timex_ecto]]
+                    :phoenix_ecto, :postgrex, :timex, :timex_ecto, :httpotion]]
   end
 
   # Specifies which paths to compile per environment.
@@ -42,7 +42,8 @@ defmodule SecureMessenger.Mixfile do
      {:timex, "~> 3.0"},
      {:comeonin, "~> 2.4"},
      {:guardian, "~> 0.12.0"},
-     {:timex_ecto, "~> 3.0"}
+     {:timex_ecto, "~> 3.0"},
+     {:httpotion, "~> 3.0.0"}
    ]
   end
 

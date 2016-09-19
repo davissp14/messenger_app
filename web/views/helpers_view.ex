@@ -25,7 +25,11 @@ defmodule SecureMessenger.ViewHelper do
       else
         target
       end
-      altered_body = String.replace(body, target, "<a href=#{altered_target} target='_blank'>#{target}</a>")
+      if String.ends_with?(target, [".gif", ".jpg", ".png"]) do
+        altered_body = String.replace(body, target, "<div class='image-added'>added an image:</div><div class='gif'><img src=#{altered_target} /></div>")
+      else
+        altered_body = String.replace(body, target, "<a href=#{altered_target} target='_blank'>#{target}</a>")
+      end
       altered_targets = List.delete_at(targets, 0)
       recursive_link_convert(altered_body, altered_targets)
     else

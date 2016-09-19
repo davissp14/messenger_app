@@ -50,6 +50,19 @@
   opacity: 0.8;
 }
 
+.chat div.gif img {
+  max-width: 300px;
+  max-height: 300px;
+  border-radius: 5px;
+}
+.chat .image-added {
+  color: #bdbdbd;;
+  padding-bottom: 5px;
+  font-size: 14px;
+  font-style: italic;
+}
+
+
 .chat li.left .chat-body
 {
     margin-left: 60px;

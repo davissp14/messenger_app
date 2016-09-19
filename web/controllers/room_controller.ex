@@ -82,11 +82,11 @@ defmodule SecureMessenger.RoomController do
     case  SecureMessenger.Repo.insert(user_room) do
         {:ok, user_room} ->
           conn
-          |> put_flash(:info, "Joined Room!")
           |> redirect(to: room_path(conn, :show, id))
         {:error, user_room} ->
           conn
-          |> redirect(to: room_path(conn, :show, id))
+          |> put_flash(:error, "Failed to join room!")
+          |> redirect(to: room_path(conn, :index))
     end
   end
 

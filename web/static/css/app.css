@@ -5,7 +5,7 @@ html, body {
   width: 100%;
   padding: 0;
   margin: 0;
-  font-family: Helvetica;
+  font-family: Helvetica,"helvetica-neue";
   background: white;
   overflow-y: hidden;
   /*background: linear-gradient(to bottom, #939393, #a8a8a8);*/
