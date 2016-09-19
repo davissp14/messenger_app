@@ -85,8 +85,7 @@ defmodule SecureMessenger.RoomController do
           |> redirect(to: room_path(conn, :show, id))
         {:error, user_room} ->
           conn
-          |> put_flash(:error, "Failed to join room!")
-          |> redirect(to: room_path(conn, :index))
+          |> redirect(to: room_path(conn, :show, id))
     end
   end
 
