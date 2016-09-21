@@ -4,7 +4,6 @@ defmodule SecureMessenger.RoomController do
   alias SecureMessenger.Repo
   alias SecureMessenger.UsersRooms
 
-
   def index(conn, _params) do
     rooms = Repo.all(user_rooms(current_user(conn)))
     rooms_to_join = Repo.all(Room) |> Repo.preload([:owner, :users])
@@ -78,7 +77,6 @@ defmodule SecureMessenger.RoomController do
 
   def join(conn, %{"id" => id}) do
     user_room = UsersRooms.changeset(%UsersRooms{user_id: current_user(conn).id, room_id: String.to_integer(id)}, %{})
-
     case  SecureMessenger.Repo.insert(user_room) do
         {:ok, user_room} ->
           conn

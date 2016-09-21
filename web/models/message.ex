@@ -3,6 +3,7 @@ defmodule SecureMessenger.Message do
 
   schema "messages" do
     field :body, :string
+    field :generated, :boolean
     belongs_to :room, SecureMessenger.Room
     belongs_to :user, SecureMessenger.User
 

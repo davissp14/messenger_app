@@ -85,10 +85,15 @@
     color: #777777;
 }
 
-.chat-time.text-muted {
+.chat li .chat-body p.muted-text {
+    margin: 0;
+    color: #a8a8a8;
+}
+
+
+.chat-time.date-text {
   padding-left: 5px;
   color: #bdbdbd;
-
 }
 
 .chat .chat-img img{

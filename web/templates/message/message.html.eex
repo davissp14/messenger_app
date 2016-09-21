@@ -5,12 +5,14 @@
   <div class="chat-body clearfix">
     <div class="header">
       <strong class="primary-font"><%= @message.user.name %></strong>
-      <small class="chat-time text-muted">
-        <%= convert_time(@conn, @message.inserted_at) %>
+      <small class="chat-time date-text">
+        <%= convert_time(@message.user, @message.inserted_at) %>
       </small>
     </div>
-    <p>
-     <%= raw(convert_text(@message.body)) %>
-    </p>
+    <%= if @message.generated do %>
+      <p class='muted-text'> <%= raw(convert_text(@message.body)) %></p>
+    <% else %>
+      <p> <%= raw(convert_text(@message.body)) %></p>
+    <% end %>
  </div>
 </li>

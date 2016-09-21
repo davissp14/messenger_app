@@ -5,8 +5,8 @@
   <div class="chat-body clearfix">
     <div class="header">
       <strong class="primary-font"><%= @user.name %></strong>
-      <small class="chat-time text-muted">
-        <%= convert_time(@conn, Timex.now) %>
+      <small class="chat-time date-text">
+        <%= convert_time(@user, Timex.now) %>
       </small>
     </div>
     <p>

@@ -61,50 +61,13 @@ let room_topic = "channels:" + room_id
 let guardianToken = $('meta[name="guardian_token"]').attr('content')
 let channel = socket.channel(room_topic, {guardian_token: guardianToken})
 
-var vis = (function(){
-    var stateKey, eventKey, keys = {
-        hidden: "visibilitychange",
-        webkitHidden: "webkitvisibilitychange",
-        mozHidden: "mozvisibilitychange",
-        msHidden: "msvisibilitychange"
-    };
-    for (stateKey in keys) {
-        if (stateKey in document) {
-            eventKey = keys[stateKey];
-            break;
-        }
-    }
-    return function(c) {
-        if (c) document.addEventListener(eventKey, c);
-        return !document[stateKey];
-    }
-})();
-
-
 $('.panel-body').animate({ scrollTop: $(".panel-body")[0].scrollHeight}, "fast");
 
 chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
     if (!chatInput.val().replace(/\s/g, '').length == 0) {
-      $.ajax({
-         type: "POST",
-         url: "/messages",
-         data: {
-           _csrf_token: $('input[name="_csrf_token"]').val(),
-           message: {
-             body: chatInput.val(),
-             room_id: room_id,
-             incognito: $('.incognito').is(':checked')
-           }
-         },
-         success: result => {
-           channel.push("new_msg", result)
-         },
-         error: e => {
-           console.log("ERROR")
-           console.log(e)
-         }
-      })
+      var type = $('.incognito').is(':checked') ? "secure" : "normal"
+      sendMessage(channel, chatInput.val(), room_id, type)
     }
   }
 })
@@ -113,17 +76,6 @@ channel.on("new_msg", payload => {
    messagesContainer.append(payload.message)
    $(".panel-body").animate({ scrollTop: $(".panel-body")[0].scrollHeight}, "slow");
    chatInput.val('')
-
-   console.log(vis());
-   if (vis() == false){
-     console.log("HERE")
-      var obj = document.createElement("audio");
-      obj.src="https://notificationsounds.com/soundfiles/19f3cd308f1455b3fa09a282e0d496f4/file-2a_arp-up.mp3";
-      obj.volume=0.10;
-      obj.autoPlay=false;
-      obj.preLoad=true;
-      obj.play();
-   }
 })
 
 channel.on("destroy_message", payload => {
@@ -135,12 +87,14 @@ channel.on("member_joined", payload => {
   var elem = $('li#' + payload.user_id + " button")
   $(elem).removeClass('btn-secondary')
   $(elem).addClass('btn-success')
+  sendMessage(channel, "joined the room", room_id, "generated")
 })
 
 channel.on("member_leave", payload => {
   var elem = $('li#' + payload.user_id + " button")
   $(elem).removeClass('btn-success')
   $(elem).addClass('btn-secondary')
+  sendMessage(channel, "left the room", room_id, "generated")
 })
 
 channel.join()
@@ -148,5 +102,29 @@ channel.join()
     $("ul.chat").scrollTop($("ul.chat")[0].scrollHeight);
   })
   .receive("error", resp => { console.log("Unable to join", resp) })
+
+
+function sendMessage(channel, body, room_id, type) {
+  $.ajax({
+     type: "POST",
+     url: "/messages",
+     data: {
+       _csrf_token: $('input[name="_csrf_token"]').val(),
+       message: {
+         body: body,
+         room_id: room_id,
+         generated: type == 'generated'
+       },
+       type: type
+     },
+     success: result => {
+       channel.push("new_msg", result)
+     },
+     error: e => {
+       console.log("ERROR")
+       console.log(e)
+     }
+  })
+}
 
 export default socket
