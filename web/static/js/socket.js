@@ -87,14 +87,12 @@ channel.on("member_joined", payload => {
   var elem = $('li#' + payload.user_id + " button")
   $(elem).removeClass('btn-secondary')
   $(elem).addClass('btn-success')
-  sendMessage(channel, "joined the room", room_id, "generated")
 })
 
 channel.on("member_leave", payload => {
   var elem = $('li#' + payload.user_id + " button")
   $(elem).removeClass('btn-success')
   $(elem).addClass('btn-secondary')
-  sendMessage(channel, "left the room", room_id, "generated")
 })
 
 channel.join()
@@ -104,7 +102,7 @@ channel.join()
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 
-function sendMessage(channel, body, room_id, type) {
+function sendMessage(channel, body, room_id, type, user_id) {
   $.ajax({
      type: "POST",
      url: "/messages",
@@ -115,7 +113,8 @@ function sendMessage(channel, body, room_id, type) {
          room_id: room_id,
          generated: type == 'generated'
        },
-       type: type
+       type: type,
+       user_id: false
      },
      success: result => {
        channel.push("new_msg", result)

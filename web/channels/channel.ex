@@ -2,14 +2,18 @@ defmodule SecureMessenger.Channel do
   use Phoenix.Channel
   use Guardian.Channel
   alias SecureMessenger.Repo
-  alias SecureMessenger.Message
   alias SecureMessenger.Presence
   alias SecureMessenger.User
+  alias SecureMessenger.Message
+
   import Logger
 
-  def join("channels:" <> _private_room_id, %{ claims: claims, resource: resource }, socket) do
+  def join("channels:" <> private_room_id, %{ claims: claims, resource: resource }, socket) do
+    socket = assign(socket, :room_id, String.to_integer(private_room_id))
+    socket = assign(socket, :user_id, current_resource(socket).id)
+
     send(self, :after_join)
-    {:ok, assign(socket, :user_id, current_resource(socket).id)}
+    {:ok, socket}
   end
 
   def join("channels:" <> _private_room_id, _params, _socket) do
@@ -18,7 +22,20 @@ defmodule SecureMessenger.Channel do
 
   def terminate(topic, socket) do
     if socket.assigns[:user_id] do
-      broadcast! socket, "member_leave", %{user_id: socket.assigns.user_id}
+      changeset = Message.changeset(%Message{
+        user_id: socket.assigns.user_id,
+        body: "left the room",
+        room_id: socket.assigns.room_id,
+        generated: true
+       }, %{})
+
+       case Repo.insert(changeset) do
+         {:ok, message} ->
+           html = Phoenix.View.render_to_string(SecureMessenger.MessageView, "message.html", conn: socket, message: message |> Repo.preload([:user] ))
+           broadcast! socket, "new_msg", %{message: html}
+           broadcast! socket, "member_leave", %{user_id: socket.assigns.user_id,}
+         {:error, changeset} ->
+       end
     end
     {:ok, socket}
   end
@@ -28,8 +45,22 @@ defmodule SecureMessenger.Channel do
     {:ok, _} = Presence.track(socket, socket.assigns.user_id, %{
       online_at: inspect(System.system_time(:seconds))
     })
-    broadcast! socket, "member_joined", %{user_id: socket.assigns.user_id}
-    {:noreply, socket}
+
+    changeset = Message.changeset(%Message{
+      user_id: socket.assigns.user_id,
+      body: "joined the room",
+      room_id: socket.assigns.room_id,
+      generated: true
+     }, %{})
+
+     case Repo.insert(changeset) do
+       {:ok, message} ->
+         html = Phoenix.View.render_to_string(SecureMessenger.MessageView, "message.html", conn: socket, message: message |> Repo.preload([:user] ))
+         broadcast! socket, "new_msg", %{message: html}
+         broadcast! socket, "member_joined", %{user_id: socket.assigns.user_id}
+     {:error, changeset} ->
+     end
+     {:noreply, socket}
   end
 
   def handle_in("new_msg", %{"message" => message, "room_id" => room_id, "temp_id" => temp_id}, socket) do

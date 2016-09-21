@@ -5,13 +5,11 @@ defmodule SecureMessenger.MessageController do
   import Ecto.Changeset, only: [put_change: 3]
   import Logger
 
-  def create(conn, %{"type" => type, "message" => message_params}) do
+  def create(conn, %{"type" => type, "message" => message_params, "user_id" => user_id}) do
     user = Guardian.Plug.current_resource(conn)
-    Logger.debug(type)
-    if Enum.member?(["normal", "generated"], type) do
-        changeset = Message.changeset(%Message{user_id: user.id}, message_params)
-        |> put_change(:generated, (message_params["generated"] == "true"))
 
+    if type == "normal" do
+        changeset = Message.changeset(%Message{user_id: user.id}, message_params)
         case Repo.insert(changeset) do
           {:ok, message} ->
             conn
