@@ -22,7 +22,7 @@ Open up two new tabs.
  * In the other run: `initdb /usr/local/var/postgres/`  # You only need to run this the first time you set this up.
  * Then run `postgres -D /usr/local/var/postgres/`
  * Connect to postgres and create the secure_messenger_dev database.
- * `psql postgres`
+ * `psql postgres` or Mac Users can Right Click on postgres folder Services > New Terminal at Folder --- if you have enabled this feature via System Prefs > Keyboard > Shortcuts > Services
  * `create database secure_messenger_dev;` then push ctrl-d to exit. 
 
 ## Starting the App
@@ -30,7 +30,7 @@ Open up two new tabs.
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
+  * Create and migrate your database with `mix ecto.create && mix ecto.migrate` -- If you get `FATAL (invalid_authorization_specification): role "postgres" does not exist` create superuser with command `createuser postgres --superuser`
   * Install Node.js dependencies with `npm install`
   * Start Phoenix endpoint with `mix phoenix.server`
 
