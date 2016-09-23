@@ -20,7 +20,7 @@
 Open up two new tabs.
  * In one tab run:  `redis-server` 
  * In the other run: `initdb /usr/local/var/postgres/`  # You only need to run this the first time you set this up.
- * Then run `posgres -D /usr/local/var/postgres/`
+ * Then run `postgres -D /usr/local/var/postgres/`
  * Connect to postgres and create the secure_messenger_dev database.
  * `psql postgres`
  * `create database secure_messenger_dev;` then push ctrl-d to exit. 
