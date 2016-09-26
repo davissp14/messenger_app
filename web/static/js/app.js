@@ -18,5 +18,6 @@ import "phoenix_html"
 // Local files can be imported direcfftly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
+import {Socket, Presence} from "phoenix"
 import socket from "./socket"
 import './side-panel'

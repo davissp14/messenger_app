@@ -50,7 +50,7 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 //
 // Finally, pass the token on connect as below. Or remove it
 // from connect if you don't care about authentication.
-
+import {Presence} from "phoenix"
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
@@ -61,7 +61,45 @@ let room_topic = "channels:" + room_id
 let guardianToken = $('meta[name="guardian_token"]').attr('content')
 let channel = socket.channel(room_topic, {guardian_token: guardianToken})
 
+let userList = $("#user-list")
+let presences = {}
+
+let listBy = (id, {metas: [first, ...rest]}) => {
+  return first
+}
+
+let render_join = (presences) => {
+  let result = Presence.list(presences, listBy)
+    .map(function(user, index, arr) {
+      $(`li#${user['id']} button`).addClass('btn-primary')
+      // userList.remove(elem);
+      // userList.append(elem);
+    })
+}
+
+let render_leave = (presences) => {
+  let result = Presence.list(presences, listBy)
+    .map(function(user, index, arr) {
+      $(`li#${user['id']} button`).removeClass('btn-primary')
+    })
+}
+
+channel.on("presence_state", state => {
+  presences = Presence.syncState(presences, state)
+  render_join(presences)
+})
+
+channel.on("presence_diff", diff => {
+  presences = Presence.syncDiff(presences, diff)
+  render_leave(diff.leaves)
+  render_join(diff.joins)
+})
+
+
 $('.panel-body').animate({ scrollTop: $(".panel-body")[0].scrollHeight}, "fast");
+
+
+
 
 chatInput.on("keypress", event => {
   if (event.keyCode == 13) {
@@ -71,6 +109,8 @@ chatInput.on("keypress", event => {
     }
   }
 })
+
+
 
 channel.on("new_msg", payload => {
    messagesContainer.append(payload.message)
@@ -102,7 +142,7 @@ channel.join()
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 
-function sendMessage(channel, body, room_id, type, user_id) {
+function sendMessage(channel, body, room_id, type) {
   $.ajax({
      type: "POST",
      url: "/messages",
@@ -113,8 +153,7 @@ function sendMessage(channel, body, room_id, type, user_id) {
          room_id: room_id,
          generated: type == 'generated'
        },
-       type: type,
-       user_id: false
+       type: type
      },
      success: result => {
        channel.push("new_msg", result)

@@ -5,7 +5,7 @@ defmodule SecureMessenger.MessageController do
   import Ecto.Changeset, only: [put_change: 3]
   import Logger
 
-  def create(conn, %{"type" => type, "message" => message_params, "user_id" => user_id}) do
+  def create(conn, %{"type" => type, "message" => message_params}) do
     user = Guardian.Plug.current_resource(conn)
 
     if type == "normal" do
