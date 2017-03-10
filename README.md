@@ -1,5 +1,6 @@
 # SecureMessenger
-Chat app with experimental snapchat like feature.
+
+First Elixir app! Decided to create a chat app with an experimental snapchat feature that allows you to send messages, images, etc. "off the record".  It's never persisted and only lives in the browser for a short period of time. 
 
 ## Installing Dependencies
 
