@@ -49,4 +49,6 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 ## Screenshots
 ![Alt text](https://dl.dropboxusercontent.com/u/22919770/screen_1.png "Screen 1")
 
+![Alt text](https://dl.dropboxusercontent.com/u/22919770/screen_2.png "Screen 2")
+
 
