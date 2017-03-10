@@ -1,6 +1,13 @@
-# SecureMessenger
+# Messenger App
 
 First Elixir app! Decided to create a chat app with an experimental snapchat feature that allows you to send messages, images, etc. "off the record".  It's never persisted and only lives in the browser for a short period of time. 
+
+## Screenshots
+
+![Alt text](https://dl.dropboxusercontent.com/u/22919770/screen_1.png "Screen 1")
+
+![Alt text](https://dl.dropboxusercontent.com/u/22919770/screen_2.png "Screen 2")
+
 
 ## Installing Dependencies
 
@@ -36,12 +43,5 @@ To start your Phoenix app:
   * Start Phoenix endpoint with `mix phoenix.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-  
-## Screenshots
-
-![Alt text](https://dl.dropboxusercontent.com/u/22919770/screen_1.png "Screen 1")
-
-![Alt text](https://dl.dropboxusercontent.com/u/22919770/screen_2.png "Screen 2")
 
 
