@@ -2,8 +2,6 @@
 
 First Elixir app! Decided to create a chat app with an experimental snapchat feature that allows you to send messages, images, etc. "off the record".  It's never persisted and only lives in the browser for a short period of time. 
 
-Notice:  I stopped working on this app a while ago... You can only work on a chat app by yourself for so long before it starts becoming sad. 
-
 Example App: https://messengerr.herokuapp.com
 
 ## Screenshots
