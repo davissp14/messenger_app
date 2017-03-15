@@ -4,6 +4,8 @@ First Elixir app! Decided to create a chat app with an experimental snapchat fea
 
 Notice:  I stopped working on this app a while ago... You can only work on a chat app by yourself for so long before it starts becoming sad. 
 
+Example App: https://messengerr.herokuapp.com
+
 ## Screenshots
 
 ![Alt text](https://dl.dropboxusercontent.com/u/22919770/screen_1.png "Screen 1")
