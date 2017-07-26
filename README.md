@@ -6,9 +6,9 @@ Example App: https://messengerr.herokuapp.com
 
 ## Screenshots
 
-![Alt text](https://dl.dropboxusercontent.com/u/22919770/screen_1.png "Screen 1")
+![Alt text](https://www.dropbox.com/s/2to5o24ti4rzipr/screen_1.png?dl=0 "Screen 1")
 
-![Alt text](https://dl.dropboxusercontent.com/u/22919770/screen_2.png "Screen 2")
+![Alt text](https://www.dropbox.com/s/z7a8frlmu7a1q9x/screen_2.png?dl=0 "Screen 2")
 
 
 ## Installing Dependencies
